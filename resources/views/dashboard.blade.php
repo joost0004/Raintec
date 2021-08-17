@@ -6,7 +6,7 @@
 
     <nav class="level">
         <div class="level-item has-text-centered">
-            <a href="/events">
+            <a href="/orders/create">
             <div class="box">
                 <p class="heading">Bestellingen</p>
                 <img src="/img/orders.png" style="height: 200px;">
