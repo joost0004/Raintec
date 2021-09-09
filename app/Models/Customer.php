@@ -15,12 +15,12 @@ class Customer extends Model
     }
 
     protected $fillable = [
-        'company-name',
+        'companyName',
         'name',
         'email',
-        'phone-number',
-        'street-and-number',
-        'postal-code',
+        'phoneNumber',
+        'street',
+        'postalCode',
         'place',
         'refrence'
     ];

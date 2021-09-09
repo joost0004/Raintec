@@ -24,29 +24,31 @@ class CreateOrdersTable extends Migration
             $table->integer('length');
             $table->integer('ammount');
             // Finish
-            $table->boolean('powdercoat');
+            $table->boolean('powdercoat')->default(false);
             $table->string('RAL')->nullable();
-            $table->boolean('matte');
-            $table->boolean('fine');
-            $table->boolean('seaside-prep');
+            $table->boolean('matte')->default(false);
+            $table->boolean('fine')->default(false);
+            $table->boolean('seasidePrep')->default(false);
             // Extra options
-            $table->integer('kopschoten');
-            $table->integer('anti-dreun');
-            $table->boolean('koppelstukken');
-            $table->boolean('ankers');
-            $table->boolean('hoekstukken');
+            $table->integer('kopschotten')->default(0);
+            $table->integer('antiDreun');
+            $table->boolean('koppelstukken')->default(false);
+            $table->boolean('ankers')->default(false);
+            $table->boolean('hoekstukken')->default(false);
             // Image
-            $table->string('image-name');
-            $table->string('file-path');
+            // $table->string('imageName')->nullable();
+            // $table->string('filePath')->nullable();
             // Other
-            $table->string('status');
-            $table->string('notes');
+            $table->string('status')->default("Afwachtend");
+            $table->string('notes')->nullable();
             $table->timestamps();
             // Customer
-            $table->unsignedBigInteger('customer-id');
-            $table->foreign('customer-id')
-                ->references('id')
-                ->on('customers');
+            $table->foreignId('customerId')->constrained('customers');
+            // $table->foreignIdFor(\App\Models\Customer::class);
+            // $table->unsignedBigInteger('customer-id');
+            // $table->foreign('customer-id')
+            //     ->references('id')
+            //     ->on('customers');
         });
     }
 

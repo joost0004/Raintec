@@ -24,14 +24,16 @@ class Order extends Model
         'RAL',
         'matte',
         'fine',
-        'seaside-prep',
-        'kopschoten',
-        'anti-dreun',
+        'seasidePrep',
+        'kopschotten',
+        'antiDreun',
         'koppelstukken',
         'ankers',
         'hoekstukken',
         'image-name',
         'file-path',
-        'status'
+        'status',
+        'notes',
+        'customerId'
     ];
 }

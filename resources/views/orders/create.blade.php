@@ -11,6 +11,10 @@
             <form method='POST' action="/orders">
                 @csrf
 
+                @if ($errors->any())
+                    {!! implode('', $errors->all('<div>:message</div>')) !!}
+                @endif
+
                 {{-- Mesurement section --}}
 
                 <h1>
@@ -34,9 +38,9 @@
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input is-small is-rounded
-                                                                @error('A')
-                                                                                            is-danger
-                                                                @enderror" type="number" name="A" id="A"
+                                                                            @error('A')
+                                                                                                                    is-danger
+                                                                            @enderror" type="number" name="A" id="A"
                                                     placeholder="Maat A" value='{{ old('A') }}'>
                                             </div>
                                             <div class="control">
@@ -51,9 +55,9 @@
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input control is-small is-rounded
-                                                                    @error('B')
-                                                                                                is-danger
-                                                                    @enderror" type="number" name="B" id="B"
+                                                                                @error('B')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="B" id="B"
                                                     placeholder="Maat B" value='{{ old('B') }}'>
                                             </div>
                                             <div class="control">
@@ -68,9 +72,9 @@
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input control is-small is-rounded
-                                                                    @error('C')
-                                                                                                is-danger
-                                                                    @enderror" type="number" name="C" id="C"
+                                                                                @error('C')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="C" id="C"
                                                     placeholder="Maat C" value='{{ old('C') }}'>
                                             </div>
                                             <div class="control">
@@ -85,10 +89,10 @@
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input is-small is-rounded
-                                                                    @error('afschot')
-                                                                                                is-danger
-                                                                    @enderror" type="number" name="afschot" id="afschot"
-                                                    placeholder="Afschot" value='{{ old('afschot') }}'>
+                                                                                @error('afschot')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="afschot"
+                                                    id="afschot" placeholder="Afschot" value='{{ old('afschot') }}'>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">graden</a>
@@ -102,10 +106,10 @@
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input is-small is-rounded
-                                                                    @error('length')
-                                                                                                is-danger
-                                                                    @enderror" type="number" name="length" id="length"
-                                                    placeholder="Lengte" value='{{ old('length') }}'>
+                                                                                @error('length')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="length"
+                                                    id="length" placeholder="Lengte" value='{{ old('length') }}'>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -119,10 +123,10 @@
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input is-small is-rounded
-                                                                    @error('ammount')
-                                                                                                is-danger
-                                                                    @enderror" type="number" name="ammount" id="ammount"
-                                                    placeholder="Aantal" value='{{ old('ammount') }}'>
+                                                                                @error('ammount')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="ammount"
+                                                    id="ammount" placeholder="Aantal" value='{{ old('ammount') }}'>
                                             </div>
                                         </div>
                                     </td>
@@ -160,25 +164,260 @@
                             </div>
                             <div class="control">
                                 <input class="input is-small is-rounded
-                                    @error('RAL')
-                                        is-danger
-                                    @enderror" type="text" name="RAL" id="RAL" placeholder="RAL 0000"
+                                                @error('RAL')
+                                                                is-danger
+                                                @enderror" type="text" name="RAL" id="RAL" placeholder="RAL 0000"
                                     value='{{ old('RAL') }}'>
                             </div>
                         </div>
                     </div>
                     <div class="level-item has-text powdercoat">
                         <label class="checkbox">
-                            <input type="checkbox">
+                            <input type="checkbox" name="matte" value="true">
                             Mat<br>
-                            <input type="checkbox">
+                            <input type="checkbox" name="fine" value="true">
                             Fijn structuur<br>
-                            <input type="checkbox">
+                            <input type="checkbox" name="seasidePrep" value="true">
                             Sea-Side voorbehandeling<br>
                         </label>
                     </div>
                 </nav>
+
                 <section class="section is-small"></section>
+
+                <h1>
+                    Extra opties:
+                </h1><br>
+
+
+                <nav class="level">
+                    <div class="level-item">
+                        <a>Kopschotten: </a>
+                        <div class="select">
+
+                            <select name="kopschotten" id="kopschotten" class="">
+                                <option value="0">Nee</option>
+                                <option value="1">Ja, gelaste kopschotten</option>
+                                <option value="2">Ja, los geleverd </option>
+                                <option value="3">Ja, kopschotten geschikt voor
+                                    stucwerk
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="level-item">
+                        <a>Anti-dreun folie: </a>
+                        <div class="select">
+
+                            <select name="antiDreun" id="antiDreun" class="">
+                                <option value="0">Nee</option>
+                                <option value="1">Ja, los geleverd </option>
+                                <option value="2">Ja, door ons aangebracht</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="level-item">
+                        <a>Koppelstukken: </a>
+                        <div class="select">
+
+                            <select name="koppelstukken" id="koppelstukken" class="">
+                                <option value="false">Nee</option>
+                                <option value="true">Ja</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="level-item">
+                        <a>Ankers: </a>
+                        <div class="select">
+                            <select name="ankers" id="ankers" class="">
+                                <option value="false">Nee</option>
+                                <option value="true">Ja</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="level-item">
+                        <a>Hoekstukken: </a>
+                        <div class="select">
+                            <select name="hoekstukken" id="hoekstukken" class="">
+                                <option value="false">Nee</option>
+                                <option value="true">Ja</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </nav>
+
+                <section class="section is-small"></section>
+
+                <h1>
+                    Foto of tekening:
+                </h1><br>
+
+                <div class="file is-boxed">
+                    <label class="file-label">
+                        <input class="file-input" type="file" name="image">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Choose a file…
+                            </span>
+                        </span>
+                    </label>
+                </div>
+
+                <section class="section is-small"></section>
+
+                <table class="table">
+                    <thead>
+                        <tr id="top-row">
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    {{-- Contact information form --}}
+                    <nav class="level">
+                        <div class="level-left">
+                            <tbody>
+                                <tr>
+                                    <th>Bedrijfsnaam:</th>
+                                    <td>
+                                        <div class="field">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                        @error('companyName')
+                                                                is-danger
+                                                        @enderror" type="text" name="companyName" id="companyName"
+                                                    placeholder="Bedrijfsnaam" value='{{ old('companyName') }}'>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Naam:</th>
+                                    <td>
+                                        <div class="field">
+                                            <div class="control">
+                                                <input class="input control is-small is-rounded
+                                                        @error('name')
+                                                                    is-danger
+                                                        @enderror" type="text" name="name" id="name" placeholder="Naam"
+                                                    value='{{ old('name') }}'>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Telefoonnummer:</th>
+                                    <td>
+                                        <div class="field">
+                                            <div class="control">
+                                                <input class="input control is-small is-rounded
+                                                        @error('phoneNumber')
+                                                                is-danger
+                                                        @enderror" type="text" name="phoneNumber" id="phoneNumber"
+                                                    placeholder="Telefoonnummer" value='{{ old('phoneNumber') }}'>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Email:</th>
+                                    <td>
+                                        <div class="field">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                        @error('email')
+                                                                is-danger
+                                                        @enderror" type="text" name="email" id="email" placeholder="Email"
+                                                    value='{{ old('email') }}'>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Straat en nummer:</th>
+                                    <td>
+                                        <div class="field">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                        @error('street')
+                                                                is-danger
+                                                        @enderror" type="text" name="street"
+                                                    id="street" placeholder="Straat en nummer"
+                                                    value='{{ old('street') }}'>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Postcode</th>
+                                    <td>
+                                        <div class="field">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                        @error('postalCode')
+                                                                is-danger
+                                                        @enderror" type="text" name="postalCode" id="postalCode"
+                                                    placeholder="Postcode" value='{{ old('postalCode') }}'>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Plaats:</th>
+                                    <td>
+                                        <div class="field">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                        @error('place')
+                                                                is-danger
+                                                        @enderror" type="text" name="place" id="place" placeholder="Plaats"
+                                                    value='{{ old('place') }}'>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Referentie:</th>
+                                    <td>
+                                        <div class="field">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                        @error('refrence')
+                                                                is-danger
+                                                        @enderror" type="text" name="refrence" id="refrence"
+                                                    placeholder="Referentie" value='{{ old('refrence') }}'>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </div>
+                    </nav>
+
+                </table><br>
+
+                <textarea class="textarea" name="notes" id="notes" placeholder="Enige notities"></textarea>
+
+                <section class="section is-small"></section>
+
+                {{-- Submit button --}}
+
+                <div classs='field is-grouped'>
+                    <div class="control">
+                        <button class='button is-link' type='submit'>Submit</button>
+                    </div>
+                </div>
+
         </div>
     </div>
 

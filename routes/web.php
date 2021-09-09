@@ -25,6 +25,6 @@ Route::get('/dashboard', function () {
 
 Route::get('/test', [PDFGenController::class, 'show']);
 
-Route::resource('/orders', OrderController::class);
+Route::resource('/orders', OrderController::class)->middleware(['auth']);
 
 require __DIR__.'/auth.php';
