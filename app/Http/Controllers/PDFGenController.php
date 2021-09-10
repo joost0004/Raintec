@@ -7,6 +7,9 @@ use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 
+use App\Models\Order;
+use App\Models\Customer;
+
 class PDFGenController extends Controller
 {
     public function show() {
@@ -30,8 +33,13 @@ class PDFGenController extends Controller
         return $invoice->stream();
     }
 
-    public function createInvoice($customerData, $orderData) {
+    public function createInvoice($orderId) {
 
+        // Import data related to invoice
+        $orderData = Order::where('id', $orderId)->firstOrFail();
+        $customerData = Customer::where('id', $orderData->customerId)->firstOrFail();
+
+        // Make customer variable, and fill it with imported data
         $customer = new Buyer([
             'name' => $customerData->name,
             // 'address' => $customerData->street + ', ' + $customerData->postalCode + ' ' + $customerData->place,

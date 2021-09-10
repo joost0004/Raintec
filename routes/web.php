@@ -25,6 +25,8 @@ Route::get('/dashboard', function () {
 
 Route::get('/test', [PDFGenController::class, 'show']);
 
+Route::get('/gen/{orderId}', [PDFGenController::class, 'createInvoice']);
+
 Route::resource('/orders', OrderController::class)->middleware(['auth']);
 
 require __DIR__.'/auth.php';

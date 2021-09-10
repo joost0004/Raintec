@@ -15,7 +15,16 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+
+        $orders = Order::all();
+
+        $customers = Customer::all();
+
+        return view('orders.index', [
+            'orders' => $orders,
+            'customers' => $customers
+        ]);
+
     }
 
     /**
