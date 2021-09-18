@@ -5,10 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\Party;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 use App\Models\Order;
 use App\Models\Customer;
+
+$client = new Party([
+    'name'          => 'Raintec BV',
+    'phone'         => '0113-340436',
+    'address' => "Ambachtsweg 13, 4421SK Kapelle",
+    'custom_fields' => [
+        'email' => "info@raintec.nl",
+],
+]);
+
 
 class PDFGenController extends Controller
 {
@@ -33,6 +44,10 @@ class PDFGenController extends Controller
         return $invoice->stream();
     }
 
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
     public function createInvoice($orderId) {
 
         // Import data related to invoice
@@ -42,7 +57,6 @@ class PDFGenController extends Controller
         // Make customer variable, and fill it with imported data
         $customer = new Buyer([
             'name' => $customerData->name,
-            // 'address' => $customerData->street + ', ' + $customerData->postalCode + ' ' + $customerData->place,
             'address' => "$customerData->street, $customerData->postalCode $customerData->place",
             'phone' => $customerData->phoneNumber,
             'custom_fields' => [
@@ -50,16 +64,162 @@ class PDFGenController extends Controller
         ],
         ]);
 
-        $item = (new InvoiceItem())->title('Service 1')->pricePerUnit(2)->quantity(2);
+        $client = new Party([
+            'name'          => 'Raintec BV',
+            'phone'         => '0113-340436',
+            'address' => "Ambachtsweg 13, 4421SK Kapelle",
+            'custom_fields' => [
+                'email' => "info@raintec.nl",
+                'K.v.K.' => "22044377",
+                'BTW nr.' => 'NL 8105 37 412 B01',
+                'Bank BIC' => 'ABNANL2A',
+                'IBAN' => 'NL74ABNA 0975 539 868'
+        ],
+        ]);
+
+        // Calculate shipping cost
+        $postalArea = (int) filter_var($customerData->postalCode, FILTER_SANITIZE_NUMBER_INT);
+        if ($postalArea < 2000 || $postalArea > 5000) {
+            $shippingCost = 100;
+        } else {
+            $shippingCost = 50;
+        }
+
+        $notes= $orderData->notes;
+
+        $items = $this->newItem($orderData);
 
         $invoice = Invoice::make()
             ->buyer($customer)
+            ->seller($client)
             ->taxRate(21)
-            ->shipping(1.99)
-            ->addItem($item)
-            ->dateFormat('d/M/Y');
+            ->addItems($items)
+            ->dateFormat('d/M/Y')
+            ->shipping($shippingCost)
+            ->notes($notes)
+            ->logo('img/logo.png');
 
         return $invoice->stream();
+
+    }
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    public function newItem($orderData) {
+
+        $uitslag = $orderData->A + $orderData->B + $orderData->C + 11;
+        $surfaceArea = ($uitslag * $orderData->length * $orderData->ammount) / 1000000;
+
+
+        // Form title string of main item
+        switch ($orderData->powdercoat) {
+            case 1:
+                $MainItemString = "Aluminium zetwerk gepoedercoat in $orderData->RAL. Totaal $orderData->length mm $surfaceArea";
+                if ($surfaceArea < 10) {
+                    $MainItemPrice = (50 * $surfaceArea) + 85;
+                } else {
+                    $MainItemPrice = (50 * $surfaceArea) + ($surfaceArea * 15);
+                }
+                break;
+            case 0:
+                $MainItemString = "Aluminium zetwerk brute. Totaal $orderData->length mm";
+                $MainItemPrice =  50 * $surfaceArea;
+                break;
+        }
+
+        $items = [
+        // Form main item
+        (new InvoiceItem())
+            ->title($MainItemString)
+            ->pricePerUnit($MainItemPrice)
+            ->quantity($orderData->ammount),
+        ];
+
+        // Mat
+        if ($orderData->matte === 1) {
+            $matte = (new InvoiceItem())
+            ->title("Mat behandeling")
+            ->pricePerUnit(1 * $surfaceArea);
+            array_push($items, $matte);
+        }
+
+        // Fijn structuur
+        if ($orderData->fine === 1) {
+            $fine = (new InvoiceItem())
+            ->title("Fijn structuur")
+            ->pricePerUnit(1 * $surfaceArea);
+            array_push($items, $fine);
+        }
+
+        // Seaside voorbehandeling
+        if ($orderData->seasidePrep === 1) {
+            $seasidePrep = (new InvoiceItem())
+            ->title("Seaside voorbehandeling")
+            ->pricePerUnit(1 * $surfaceArea);
+            array_push($items, $seasidePrep);
+        }
+
+        // Kopschotten item
+        switch ($orderData->kopschotten) {
+            case 1:
+                $kopschotten = (new InvoiceItem())
+                ->title("Gelaste kopschotten waterslagen")
+                ->pricePerUnit(7.5)
+                ->quantity(2);
+                array_push($items, $kopschotten);
+                break;
+            case 2:
+                $kopschotten = (new InvoiceItem())
+                ->title("Kopschotten waterslagen, los geleverd")
+                ->pricePerUnit(7.5)
+                ->quantity(2);
+                array_push($items, $kopschotten);
+                break;
+            case 3:
+                $kopschotten = (new InvoiceItem())
+                ->title("Kopschotten waterslagen, geschikt voor stucwerk")
+                ->pricePerUnit(7.5)
+                ->quantity(2);
+                array_push($items, $kopschotten);
+                break;
+            default:
+                break;
+        }
+
+
+        // AntiDreun item
+        switch ($orderData->antiDreun) {
+            case 1:
+                $antiDreun = (new InvoiceItem())
+                ->title("Anti-dreunfolie 50mm, los geleverd")
+                ->pricePerUnit(7.5)
+                ->quantity(1);
+                array_push($items, $antiDreun);
+                break;
+            case 2:
+                $antiDreun = (new InvoiceItem())
+                ->title("Anti-dreunfolie 50mm, aangebracht")
+                ->pricePerUnit(7.5)
+                ->quantity(1);
+                array_push($items, $antiDreun);
+                break;
+            default:
+                break;
+        }
+
+        // Koppelstukken
+        if ($orderData->length >= 3000) {
+            $koppelstuk = (new InvoiceItem())
+            ->title("Koppelstukken waterslag(en)")
+            ->pricePerUnit(4)
+            ->quantity(1);
+            array_push($items, $koppelstuk);
+        }
+
+
+        return $items;
 
     }
 
