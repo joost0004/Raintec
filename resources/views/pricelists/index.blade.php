@@ -17,7 +17,7 @@
                     <tr>
                         <td>Waterslag</td>
                         <td>
-                            <form action="/pricelists/waterslag">
+                            <form action="/pricelists/1">
                                 <button class='button is-link' type="submit">Bekijk</button>
                             </form>
                         </td>

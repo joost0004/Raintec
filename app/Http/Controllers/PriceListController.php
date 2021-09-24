@@ -47,7 +47,9 @@ class PriceListController extends Controller
      */
     public function show(PriceListWaterslag $priceListWaterslag)
     {
-        
+        $list = PriceListWaterslag::findOrFail($priceListWaterslag);
+
+        return view('pricelists.show', compact('list'));
     }
 
     /**

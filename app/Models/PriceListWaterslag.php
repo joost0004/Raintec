@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class PriceListWaterslag extends Model
 {
     use HasFactory;
+
+    protected $table = 'price_list_waterslags';
 }
