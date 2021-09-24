@@ -2,8 +2,8 @@
 
 @section('content')
 
-    <nav class="level">
-        <p class=" has-text-centered">
+<nav class="level">
+    <p class=" has-text-centered">
         <div class="field is-grouped">
             <div class="control">
                 <form action="/dashboard">
@@ -11,8 +11,8 @@
                 </form>
             </div>
         </div>
-        </p>
-        <p class=" has-text-centered">
+    </p>
+    <p class=" has-text-centered">
         <div class="field is-grouped">
             <div class="control">
                 <form action="/orders/create">
@@ -20,36 +20,35 @@
                 </form>
             </div>
         </div>
-        </p>
-    </nav>
-    <section class="section">
+    </p>
+</nav>
+<section class="section">
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td>Status</td>
-                        <td>Order ID</td>
-                        <td>Klant</td>
-                        <td>E-mail</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($orders as $order)
+<table class="table">
+<thead>
+<tr>
+    <td>Status</td>
+    <td>Order ID</td>
+    <td>Klant</td>
+    <td>E-mail</td>
+    <td></td>
+</tr>
+</thead>
+<tbody>
+@foreach($orders as $order)
 
-                        <tr>
-                            <td>{{ $order->status }}</td>
-                            <td>{{ $order->id }}</td>
-                            <td>{{ $customers[$order->customerId - 1]->name }}</td>
-                            <td>{{ $customers[$order->customerId - 1]->email }}</td>
-                            <td>
-                                <form action="/gen/{{ $order->id }}">
-                                    <button class='button is-link' type="submit">Bekijk</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+    <tr>
+        <td>{{ $order->status }}</td>
+        <td>{{ $order->id }}</td>
+        <td>{{ $customers[$order->customerId-1]->name }}</td>
+        <td>{{ $customers[$order->customerId-1]->email }}</td>
+        <td>    <form action="/gen/{{$order->id}}">
+                <button class='button is-link' type="submit">Bekijk</button>
+            </form>
+        </td>
+    </tr>
+@endforeach
+</tbody>
+</table>
 
-    @endsection
+@endsection

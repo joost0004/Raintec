@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFGenController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\PriceListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +28,5 @@ Route::get('/test', [PDFGenController::class, 'show']);
 Route::get('/gen/{orderId}', [PDFGenController::class, 'createInvoice']);
 
 Route::resource('/orders', OrderController::class)->middleware(['auth']);
-
-Route::resource('/pricelists', PriceListController::class)->middleware(['auth']);
 
 require __DIR__.'/auth.php';
