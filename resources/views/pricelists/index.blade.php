@@ -14,14 +14,26 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
+
+                    @foreach ($lists as $list)
+                        <tr>
+                            <td>Waterslag</td>
+                            <td>
+                                <form action="/pricelist/{{$list->id}}">
+                                    <button class='button is-link' type="submit">Bekijk</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+
+                    {{-- <tr>
                         <td>Waterslag</td>
                         <td>
                             <form action="/pricelists/1">
                                 <button class='button is-link' type="submit">Bekijk</button>
                             </form>
                         </td>
-                    </tr>
+                    </tr> --}}
                 </tbody>
                 </table>
         </div>

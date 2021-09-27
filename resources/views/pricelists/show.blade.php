@@ -6,7 +6,7 @@
         <p class=" has-text-centered">
         <div class="field is-grouped">
             <div class="control">
-                <form action="/pricelists">
+                <form action="/pricelist">
                     <button type="submit" class='button is-link'>Ga terug</button>
                 </form>
             </div>
@@ -14,7 +14,6 @@
         </p>
     </nav>
     <section class="section">
-
             <table class="table">
                 <thead>
                     <tr>
@@ -28,7 +27,7 @@
                 <tbody>
                         <tr>
                             <td>Waterslag</td>
-                            <td>{{ $list->product }}</td>
+                            <td>{{$priceList->product}}</td>
                             <td></td>
                             <td></td>
                             <td></td>

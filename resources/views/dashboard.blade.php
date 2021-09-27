@@ -14,7 +14,7 @@
             </a>
         </div>
         <div class="level-item has-text-centered">
-            <a href="/registration">
+            <a href="/pricelist">
             <div class="box">
                 <p class="heading">Producten</p>
                 <img src="/img/product.png" style="height: 200px;">
