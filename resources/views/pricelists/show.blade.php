@@ -14,7 +14,6 @@
         </p>
     </nav>
     <section class="section">
-
             <table class="table">
                 <thead>
                     <tr>
@@ -28,7 +27,7 @@
                 <tbody>
                         <tr>
                             <td>Waterslag</td>
-                            <td>{{$priceList}}</td>
+                            <td>{{$priceList->product}}</td>
                             <td></td>
                             <td></td>
                             <td></td>

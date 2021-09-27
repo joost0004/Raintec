@@ -50,11 +50,12 @@ class PriceListController extends Controller
      * @param  \App\Models\PriceList  $priceList
      * @return \Illuminate\Http\Response
      */
-    public function show(PriceList $priceList)
+    public function show(int $priceListId)
     {
-        return view('pricelists.show', [
-            'priceList' => $priceList
-        ]);
+        $priceList= PriceList::all()->where('id', '=', $priceListId)->first();
+
+        return view('pricelists.show',
+        compact('priceList'));
     }
 
     /**
