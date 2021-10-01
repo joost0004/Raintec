@@ -67,7 +67,7 @@
 
             .table th,
             .table td {
-                padding: 0.5rem;
+                padding: 0.75rem;
                 vertical-align: top;
                 border-top: 1px solid #dee2e6;
             }
@@ -110,7 +110,7 @@
                 font-family: "DejaVu Sans";
             }
             body, h1, h2, h3, h4, h5, h6, table, th, tr, td, p, div {
-                line-height: 1.0;
+                line-height: 1.1;
             }
             .party-header {
                 font-size: 1.5rem;
@@ -136,11 +136,11 @@
                 <tr>
                     <td class="border-0 pl-0" width="70%">
                         <h4 class="text-uppercase">
-                            <strong>OFFERTE</strong>
+                            <strong>{{ $invoice->name }}</strong>
                         </h4>
                     </td>
                     <td class="border-0 pl-0">
-                        {{--<p>{{ __('invoices::invoice.serial') }} <strong>{{ $invoice->getSerialNumber() }}</strong></p>--}}
+                        <p>{{ __('invoices::invoice.serial') }} <strong>{{ $invoice->getSerialNumber() }}</strong></p>
                         <p>{{ __('invoices::invoice.date') }}: <strong>{{ $invoice->getDate() }}</strong></p>
                     </td>
                 </tr>
@@ -152,11 +152,11 @@
             <thead>
                 <tr>
                     <th class="border-0 pl-0 party-header" width="48.5%">
-                        Raintec
+                        {{ __('invoices::invoice.seller') }}
                     </th>
                     <th class="border-0" width="3%"></th>
                     <th class="border-0 pl-0 party-header">
-                        Klant
+                        {{ __('invoices::invoice.buyer') }}
                     </th>
                 </tr>
             </thead>
@@ -171,7 +171,7 @@
 
                         @if($invoice->seller->address)
                             <p class="seller-address">
-                                {{ $invoice->seller->address }}
+                                {{ __('invoices::invoice.address') }}: {{ $invoice->seller->address }}
                             </p>
                         @endif
 
@@ -189,7 +189,7 @@
 
                         @if($invoice->seller->phone)
                             <p class="seller-phone">
-                                {{ $invoice->seller->phone }}
+                                {{ __('invoices::invoice.phone') }}: {{ $invoice->seller->phone }}
                             </p>
                         @endif
 
@@ -209,7 +209,7 @@
 
                         @if($invoice->buyer->address)
                             <p class="buyer-address">
-                                {{ $invoice->buyer->address }}
+                                {{ __('invoices::invoice.address') }}: {{ $invoice->buyer->address }}
                             </p>
                         @endif
 
@@ -227,7 +227,7 @@
 
                         @if($invoice->buyer->phone)
                             <p class="buyer-phone">
-                                {{ $invoice->buyer->phone }}
+                                {{ __('invoices::invoice.phone') }}: {{ $invoice->buyer->phone }}
                             </p>
                         @endif
 

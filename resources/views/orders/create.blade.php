@@ -142,7 +142,9 @@
 
                 {{-- Finish section --}}
 
-                <section class="section is-small"></section>
+                <section class="section is-small">
+                    <hr class="divider">
+                </section>
 
                 <h1>
                     Afwerking:
@@ -183,7 +185,9 @@
                     </div>
                 </nav>
 
-                <section class="section is-small"></section>
+                <section class="section is-small">
+                    <hr class="divider">
+                </section>
 
                 <h1>
                     Extra opties:
@@ -254,7 +258,9 @@
 
                 </nav>
 
-                <section class="section is-small"></section>
+                <section class="section is-small">
+                    <hr class="divider">
+                </section>
 
                 <h1>
                     Foto of tekening:
@@ -274,7 +280,9 @@
                     </label>
                 </div>
 
-                <section class="section is-small"></section>
+                <section class="section is-small">
+                    <hr class="divider">
+                </section>
 
                 <table class="table">
                     <thead>
@@ -284,6 +292,10 @@
                         </tr>
                     </thead>
                     {{-- Contact information form --}}
+
+                    <h1>
+                        Contact informatie:
+                    </h1><br>
                     <nav class="level">
                         <div class="level-left">
                             <tbody>

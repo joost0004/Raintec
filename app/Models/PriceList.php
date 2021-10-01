@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class PriceList extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'product',
+        'poedercoat',
+        'poedercoat10',
+        'kopschotten',
+        'antiDreun',
+        'koppelstukken',
+        'ankers',
+        'hoekstukken',
+    ];
+
 }

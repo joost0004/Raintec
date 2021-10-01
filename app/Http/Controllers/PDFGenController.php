@@ -9,6 +9,7 @@ use LaravelDaily\Invoices\Classes\Party;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 use App\Models\Order;
+use App\Models\PriceList;
 use App\Models\Customer;
 
 $client = new Party([
@@ -97,7 +98,9 @@ class PDFGenController extends Controller
             ->dateFormat('d/M/Y')
             ->shipping($shippingCost)
             ->notes($notes)
-            ->logo('img/logo.png');
+            ->logo('img/logo.png')
+            ->filename($customerData->name . ' offerte')
+            ->save('public');
 
         return $invoice->stream();
 
@@ -109,6 +112,9 @@ class PDFGenController extends Controller
 
     public function newItem($orderData) {
 
+        // Pulling in the price list
+        $priceList= PriceList::all()->where('id', '=', '1')->first();
+
         $uitslag = $orderData->A + $orderData->B + $orderData->C + 11;
         $surfaceArea = ($uitslag * $orderData->length * $orderData->ammount) / 1000000;
 
@@ -118,14 +124,14 @@ class PDFGenController extends Controller
             case 1:
                 $MainItemString = "Aluminium zetwerk gepoedercoat in $orderData->RAL. Totaal $orderData->length mm $surfaceArea";
                 if ($surfaceArea < 10) {
-                    $MainItemPrice = (50 * $surfaceArea) + 85;
+                    $MainItemPrice = ($priceList->product * $surfaceArea) + $priceList->poedercoat;
                 } else {
-                    $MainItemPrice = (50 * $surfaceArea) + ($surfaceArea * 15);
+                    $MainItemPrice = ($priceList->product * $surfaceArea) + ($surfaceArea * $priceList->poedercoat10);
                 }
                 break;
             case 0:
                 $MainItemString = "Aluminium zetwerk brute. Totaal $orderData->length mm";
-                $MainItemPrice =  50 * $surfaceArea;
+                $MainItemPrice =  $priceList->product * $surfaceArea;
                 break;
         }
 
@@ -166,21 +172,21 @@ class PDFGenController extends Controller
             case 1:
                 $kopschotten = (new InvoiceItem())
                 ->title("Gelaste kopschotten waterslagen")
-                ->pricePerUnit(7.5)
+                ->pricePerUnit($priceList->kopschotten)
                 ->quantity(2);
                 array_push($items, $kopschotten);
                 break;
             case 2:
                 $kopschotten = (new InvoiceItem())
                 ->title("Kopschotten waterslagen, los geleverd")
-                ->pricePerUnit(7.5)
+                ->pricePerUnit($priceList->kopschotten)
                 ->quantity(2);
                 array_push($items, $kopschotten);
                 break;
             case 3:
                 $kopschotten = (new InvoiceItem())
                 ->title("Kopschotten waterslagen, geschikt voor stucwerk")
-                ->pricePerUnit(7.5)
+                ->pricePerUnit($priceList->kopschotten)
                 ->quantity(2);
                 array_push($items, $kopschotten);
                 break;
@@ -194,14 +200,14 @@ class PDFGenController extends Controller
             case 1:
                 $antiDreun = (new InvoiceItem())
                 ->title("Anti-dreunfolie 50mm, los geleverd")
-                ->pricePerUnit(7.5)
+                ->pricePerUnit($priceList->antiDreun)
                 ->quantity(1);
                 array_push($items, $antiDreun);
                 break;
             case 2:
                 $antiDreun = (new InvoiceItem())
                 ->title("Anti-dreunfolie 50mm, aangebracht")
-                ->pricePerUnit(7.5)
+                ->pricePerUnit($priceList->antiDreun)
                 ->quantity(1);
                 array_push($items, $antiDreun);
                 break;
@@ -213,13 +219,17 @@ class PDFGenController extends Controller
         if ($orderData->length >= 3000) {
             $koppelstuk = (new InvoiceItem())
             ->title("Koppelstukken waterslag(en)")
-            ->pricePerUnit(4)
+            ->pricePerUnit($priceList->koppelstukken)
             ->quantity(1);
             array_push($items, $koppelstuk);
         }
 
 
         return $items;
+
+    }
+
+    public function sendMail() {
 
     }
 

@@ -49,31 +49,29 @@
                 <tbody>
                         <tr>
                             <td>Waterslag</td>
-                            <td>{{$priceList->product}}</td>
-                            <td>{{$priceList->poedercoat}}</td>
-                            <td>{{$priceList->poedercoat10}}</td>
-                            <td>{{$priceList->kopschotten}}</td>
-                            <td>{{$priceList->antiDreun}}</td>
-                            <td>{{$priceList->koppelstukken}}</td>
-                            <td>{{$priceList->ankers}}</td>
-                            <td>{{$priceList->hoekstukken}}</td>
+                                <form action="/pricelist/{{$priceList->id}}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <?php
+                                        $priceListAttributes = $priceList->getAttributes();
+                                        array_shift($priceListAttributes);
+                                        array_pop($priceListAttributes);
+                                        array_pop($priceListAttributes);
+                                    ?>
+
+                                    @foreach ($priceListAttributes as $key => $value)
+                                        <td>
+                                            <input type="text" class="input" id="{{$key}}" name="{{$key}}" value="{{$value}}">
+                                        </td>
+                                    @endforeach
+
                             <td>
-                                <form action="/pricelist/{{$priceList->id}}/edit">
-                                    <button class='button is-link' type="submit">Edit</button>
+                                    <button class='button is-link' type="submit">Submit</button>
                                 </form>
                             </td>
                         </tr>
                 </tbody>
             </table>
 
-            {{-- @php
-                $priceListAttributes = $priceList->getAttributes();
-                array_shift($priceListAttributes);
-                array_pop($priceListAttributes);
-                array_pop($priceListAttributes);
-            @endphp
-            @foreach ($priceListAttributes as $key => $value)
-                <p>{{$key}} heeft {{$value}}</p>
-            @endforeach
-            @dd($priceListAttributes) --}}
-    @endsection
+@endsection

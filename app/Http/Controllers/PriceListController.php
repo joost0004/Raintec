@@ -64,9 +64,12 @@ class PriceListController extends Controller
      * @param  \App\Models\PriceList  $priceList
      * @return \Illuminate\Http\Response
      */
-    public function edit(PriceList $priceList)
+    public function edit(int $priceListId)
     {
-        //
+        $priceList= PriceList::all()->where('id', '=', $priceListId)->first();
+
+        return view('pricelists.edit',
+        compact('priceList'));
     }
 
     /**
@@ -76,9 +79,21 @@ class PriceListController extends Controller
      * @param  \App\Models\PriceList  $priceList
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PriceList $priceList)
+    public function update(Request $request, int $priceListId)
     {
-        //
+        $priceList= PriceList::all()->where('id', '=', $priceListId)->first();
+        $priceList->update($request->validate([
+            'product' => 'required',
+            'poedercoat' => 'required',
+            'poedercoat10' => 'required',
+            'kopschotten' => 'required',
+            'antiDreun' => 'required',
+            'koppelstukken' => 'required',
+            'ankers' => 'required',
+            'hoekstukken' => 'required',
+        ]));
+
+        return redirect("/pricelist");
     }
 
     /**
