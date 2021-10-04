@@ -33,6 +33,13 @@
     </nav>
     <section class="section">
 
+        @if ($message = Session::get('success'))
+            <div class="notification is-info is-light" id="notification">
+                <button class="delete" onclick="hideNotification()">x</button>
+                {{ $message }}
+              </div>
+        @endif
+
         <table class="table" style="margin-right: auto; margin-left: auto;">
             <thead>
                 <tr>
@@ -40,6 +47,7 @@
                     <td>Order ID</td>
                     <td>Klant</td>
                     <td>E-mail</td>
+                    <td></td>
                     <td></td>
                 </tr>
             </thead>
@@ -56,9 +64,33 @@
                                 <button class='button is-link' type="submit">Bekijk</button>
                             </form>
                         </td>
+                        @if ($order->status === 'Done')
+                            <td>
+                                <form action="/sendOfferte/{{ $order->id }}">
+                                    <button class="button is-link" type="submit">Verstuur</button>
+                                </form>
+                            </td>
+                            @if ($errors->orderId === $order->id)
+                                <td>
+                                    @dd($errors)
+                                    <p>{{ $errors->first()}}</p>
+                                </td>
+                            @endif
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
+        <script>
+            function hideNotification() {
+                let div = document.getElementById('notification');
+                if (div.style.display === "none") {
+                    div.style.display = "block";
+                } else {
+                    div.style.display = "none";
+                }
+            }
+        </script>
 
     @endsection

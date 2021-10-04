@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\Party;
@@ -101,6 +102,12 @@ class PDFGenController extends Controller
             ->logo('img/logo.png')
             ->filename($customerData->name . ' offerte')
             ->save('public');
+
+        // $this->sendMail($customerData);
+
+        $orderData->update([
+            'status' => 'Done'
+        ]);
 
         return $invoice->stream();
 
@@ -229,7 +236,14 @@ class PDFGenController extends Controller
 
     }
 
-    public function sendMail() {
+    public function sendMail($orderId) {
+
+        $orderData = Order::where('id', $orderId)->firstOrFail();
+        $customerData = Customer::where('id', $orderData->customerId)->firstOrFail();
+
+        app('App\Http\Controllers\MailController')->sendInvoice($customerData);
+
+        return back()->with('success', "Offerte verstuurd naar {$customerData->name}.");
 
     }
 

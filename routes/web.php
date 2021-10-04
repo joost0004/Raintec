@@ -28,6 +28,8 @@ Route::get('/test', [PDFGenController::class, 'show']);
 
 Route::get('/gen/{orderId}', [PDFGenController::class, 'createInvoice']);
 
+Route::get('/sendOfferte/{orderId}', [PDFGenController::class, 'sendMail']);
+
 Route::resource('/orders', OrderController::class)->middleware(['auth']);
 
 Route::resource('/pricelist', PriceListController::class);
