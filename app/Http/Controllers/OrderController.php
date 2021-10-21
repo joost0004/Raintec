@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -71,8 +73,7 @@ class OrderController extends Controller
             'koppelstukken'=>'required',
             'ankers'=>'required',
             'hoekstukken'=>'required',
-            // 'image-name'=>'',
-            // 'file-path'=>'',
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:4096',
             'status'=>'',
             'notes'=>'',
         ]);
@@ -132,13 +133,24 @@ class OrderController extends Controller
 
         $customer_id = $customer->id;
 
+        if ($request->image) {
+            $fileExtension = $request->image->extension();
+
+            $imageName = $customer->name . " Aditional Image." . $fileExtension;
+
+            $request->image->storeAs('images', $imageName);
+
+            $request->request->add([
+                'imageName' => $imageName
+            ]);
+        }
+
         $request->request->add([
-            'customerId' => $customer_id
+            'customerId' => $customer_id,
         ]);
 
-
-
-        $order =Order::create($request->validate([
+        $order = Order::create(
+            $request->validate([
             'A'=>'required',
             'B'=>'required',
             'C'=>'required',
@@ -155,14 +167,12 @@ class OrderController extends Controller
             'koppelstukken'=>'required',
             'ankers'=>'required',
             'hoekstukken'=>'required',
-            // 'image-name'=>'',
-            // 'file-path'=>'',
+            'imageName' => '',
             'status'=>'',
             'notes'=>'',
             'customerId'=> 'required'
         ]));
 
-        //app('App\Http\Controllers\PDFGenController')->createInvoice($customer, $order);
 
         return redirect('/dashboard');
     }
@@ -211,4 +221,41 @@ class OrderController extends Controller
     {
         //
     }
+
+    public function getImage(int $orderId) {
+
+        $order = Order::all()->where('id', '=', $orderId)->first();
+
+        $image = Storage::get('images/'. $order->imageName);
+
+        $imageInfo = getimagesizefromstring($image);
+        $width = $imageInfo[0];
+        $height = $imageInfo[1];
+
+        if ($width > 100 && $height > 100) {
+            // save image to file
+            file_put_contents($order->imageName, $image);
+        }
+
+        // send to the browser
+        return response($image, 200)->header('Content-Type', $imageInfo['mime']);
+
+        // $imagePath = 'images/'. $order->imageName;
+
+        // echo url($image);
+
+        //return view('imageDisplay', $image);
+
+
+    }
+
+    // public function showImage($eventID, $attachmentPath) {
+
+    //     $event = EventModel::find($eventID);
+    //     $file = $event->attachments->where('path', $attachmentPath)->first();
+
+    //     $url = storage_path('app/' . $event->getDirectoryPath() . $file->path);
+
+
+    // }
 }

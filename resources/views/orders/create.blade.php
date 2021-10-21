@@ -6,9 +6,11 @@
     <div id='wrapper'>
         <div id='page' class='container'>
             <section class="section">
-                <img src="/img/form-example.png" alt="voorbeeld" style="height: 350px">
+                <img src="/img/form-example.png" alt="voorbeeld" style="height: 350px;   display: block;
+                margin-left: auto;
+                margin-right: auto;">
             </section>
-            <form method='POST' action="/orders">
+            <form method='POST' enctype="multipart/form-data" action="/orders">
                 @csrf
 
                 @if ($errors->any())
@@ -266,7 +268,7 @@
                     Foto of tekening:
                 </h1><br>
 
-                <div class="file is-boxed">
+                {{-- <div class="file is-boxed">
                     <label class="file-label">
                         <input class="file-input" type="file" name="image">
                         <span class="file-cta">
@@ -278,7 +280,25 @@
                             </span>
                         </span>
                     </label>
-                </div>
+                </div> --}}
+
+                <div id="file-js-example" class="file has-name">
+                    <label class="file-label">
+                      <input class="file-input" type="file" name="image" accept="image/*">
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                          Choose a file…
+                        </span>
+                      </span>
+                      <span class="file-name">
+                        No file uploaded
+                      </span>
+                    </label>
+                  </div>
+
 
                 <section class="section is-small">
                     <hr class="divider">
@@ -436,5 +456,24 @@
     </form>
     </div>
     </div>
+    <section class="section is-small"></section>
+
+    <script>
+        let fileInput = document.querySelector('#file-js-example input[type=file]');
+        fileInput.onchange = () => {
+          if (fileInput.files.length > 0) {
+            const fileName = document.querySelector('#file-js-example .file-name');
+            fileName.textContent = fileInput.files[0].name;
+          }
+        }
+
+        fileInput.onchange = function() {
+            let checkFileName = document.querySelector('#file-js-example input[type=file]').value.toLowerCase();
+
+            if (!checkFileName.endsWith('.png') && !checkFileName.endsWith('.jpg') && !checkFileName.endsWith(".jpeg")) {
+                alert('Please use only one of the following image types: PNG, JPG, JPEG');
+            }
+        }
+    </script>
 
 @endsection

@@ -64,6 +64,14 @@
                                 <button class='button is-link' type="submit">Bekijk</button>
                             </form>
                         </td>
+                        @if ($order->imageName)
+                        <td>
+                            <div class="buttons is-right">
+                                <a href="/getImage/{{$order->id}}" target="_blank" class="button is-link">Bekijk afbeelding</a>
+                            </div>
+                        </td>
+
+                        @endif
                         @if ($order->status === 'Done')
                             <td>
                                 <form action="/sendOfferte/{{ $order->id }}">

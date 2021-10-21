@@ -30,6 +30,10 @@ Route::get('/gen/{orderId}', [PDFGenController::class, 'createInvoice']);
 
 Route::get('/sendOfferte/{orderId}', [PDFGenController::class, 'sendMail']);
 
+Route::get('/getImage/{orderId}', [OrderController::class, 'getImage']);
+
+Route::get('event/{id}/overview/image/{attachment}', ['as' => 'event-attachment-image', 'uses' => 'AttachmentController@show']);
+
 Route::resource('/orders', OrderController::class)->middleware(['auth']);
 
 Route::resource('/pricelist', PriceListController::class);

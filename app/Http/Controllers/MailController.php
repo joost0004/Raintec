@@ -6,7 +6,7 @@ use App\Models\Customer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
 {

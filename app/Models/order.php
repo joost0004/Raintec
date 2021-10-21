@@ -30,7 +30,7 @@ class Order extends Model
         'koppelstukken',
         'ankers',
         'hoekstukken',
-        'image-name',
+        'imageName',
         'file-path',
         'status',
         'notes',

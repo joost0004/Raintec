@@ -36,19 +36,13 @@ class CreateOrdersTable extends Migration
             $table->boolean('ankers')->default(false);
             $table->boolean('hoekstukken')->default(false);
             // Image
-            // $table->string('imageName')->nullable();
-            // $table->string('filePath')->nullable();
+            $table->string('imageName')->nullable();
             // Other
             $table->string('status')->default("Afwachtend");
             $table->string('notes')->nullable();
             $table->timestamps();
             // Customer
             $table->foreignId('customerId')->constrained('customers');
-            // $table->foreignIdFor(\App\Models\Customer::class);
-            // $table->unsignedBigInteger('customer-id');
-            // $table->foreign('customer-id')
-            //     ->references('id')
-            //     ->on('customers');
         });
     }
 
