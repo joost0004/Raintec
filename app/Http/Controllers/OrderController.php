@@ -229,33 +229,11 @@ class OrderController extends Controller
         $image = Storage::get('images/'. $order->imageName);
 
         $imageInfo = getimagesizefromstring($image);
-        $width = $imageInfo[0];
-        $height = $imageInfo[1];
-
-        if ($width > 100 && $height > 100) {
-            // save image to file
-            file_put_contents($order->imageName, $image);
-        }
 
         // send to the browser
         return response($image, 200)->header('Content-Type', $imageInfo['mime']);
 
-        // $imagePath = 'images/'. $order->imageName;
-
-        // echo url($image);
-
-        //return view('imageDisplay', $image);
-
-
     }
 
-    // public function showImage($eventID, $attachmentPath) {
 
-    //     $event = EventModel::find($eventID);
-    //     $file = $event->attachments->where('path', $attachmentPath)->first();
-
-    //     $url = storage_path('app/' . $event->getDirectoryPath() . $file->path);
-
-
-    // }
 }

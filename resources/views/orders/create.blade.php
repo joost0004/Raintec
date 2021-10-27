@@ -461,19 +461,29 @@
     <script>
         let fileInput = document.querySelector('#file-js-example input[type=file]');
         fileInput.onchange = () => {
-          if (fileInput.files.length > 0) {
+            let checkFileName = document.querySelector('#file-js-example input[type=file]').value.toLowerCase()
+
+                if (   !checkFileName.endsWith('.png')
+                    && !checkFileName.endsWith('.jpg')
+                    && !checkFileName.endsWith(".jpeg"))
+                {
+                alert('Please use only one of the following image types: PNG, JPG, JPEG');
+                fileInput.reset();
+                }
+
+            if (fileInput.files.length > 0) {
             const fileName = document.querySelector('#file-js-example .file-name');
             fileName.textContent = fileInput.files[0].name;
           }
         }
 
-        fileInput.onchange = function() {
-            let checkFileName = document.querySelector('#file-js-example input[type=file]').value.toLowerCase();
+        // fileInput.onchange = function() {
+        //     let checkFileName = document.querySelector('#file-js-example input[type=file]').value.toLowerCase();
 
-            if (!checkFileName.endsWith('.png') && !checkFileName.endsWith('.jpg') && !checkFileName.endsWith(".jpeg")) {
-                alert('Please use only one of the following image types: PNG, JPG, JPEG');
-            }
-        }
+        //     if (!checkFileName.endsWith('.png') && !checkFileName.endsWith('.jpg') && !checkFileName.endsWith(".jpeg")) {
+        //         alert('Please use only one of the following image types: PNG, JPG, JPEG');
+        //     }
+        // }
     </script>
 
 @endsection
