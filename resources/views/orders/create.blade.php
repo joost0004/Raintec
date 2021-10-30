@@ -43,7 +43,8 @@
                                                                             @error('A')
                                                                                                                     is-danger
                                                                             @enderror" type="number" name="A" id="A"
-                                                    placeholder="Maat A" value='{{ old('A') }}'>
+                                                    placeholder="Maat A" value='{{ old('A') }}'
+                                                    onkeypress="return isNumberKey(this, event);">
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -477,13 +478,22 @@
           }
         }
 
-        // fileInput.onchange = function() {
-        //     let checkFileName = document.querySelector('#file-js-example input[type=file]').value.toLowerCase();
-
-        //     if (!checkFileName.endsWith('.png') && !checkFileName.endsWith('.jpg') && !checkFileName.endsWith(".jpeg")) {
-        //         alert('Please use only one of the following image types: PNG, JPG, JPEG');
-        //     }
-        // }
+        function isNumberKey(txt, evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 46) {
+            //Check if the text already contains the . character
+            if (txt.value.indexOf('.') === -1) {
+            return true;
+            } else {
+            return false;
+            }
+        } else {
+            if (charCode > 31 &&
+            (charCode < 48 || charCode > 57))
+            return false;
+        }
+        return true;
+        }
     </script>
 
 @endsection

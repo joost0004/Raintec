@@ -32,7 +32,9 @@
     </p>
 </nav>
     <section class="section">
-            <table class="table" style="margin-right: auto; margin-left: auto;">
+
+
+            <table class="table" style="margin-right: 20%; margin-left: 20%;">
                 <thead>
                     <tr>
                         <td>Product:</td>

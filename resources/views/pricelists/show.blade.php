@@ -65,15 +65,4 @@
                         </tr>
                 </tbody>
             </table>
-
-            {{-- @php
-                $priceListAttributes = $priceList->getAttributes();
-                array_shift($priceListAttributes);
-                array_pop($priceListAttributes);
-                array_pop($priceListAttributes);
-            @endphp
-            @foreach ($priceListAttributes as $key => $value)
-                <p>{{$key}} heeft {{$value}}</p>
-            @endforeach
-            @dd($priceListAttributes) --}}
     @endsection
