@@ -28,6 +28,7 @@
                         <tr id="top-row">
                             <th></th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     {{-- Main table container --}}
@@ -40,10 +41,25 @@
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input is-small is-rounded
-                                                                            @error('A')
+                                                                            @error('A1')
                                                                                                                     is-danger
-                                                                            @enderror" type="number" name="A" id="A"
-                                                    placeholder="Maat A" value='{{ old('A') }}'
+                                                                            @enderror" type="number" name="A1" id="A1"
+                                                    placeholder="Maat A" value='{{ old('A1') }}'
+                                                    onkeypress="return isNumberKey(this, event);">
+                                            </div>
+                                            <div class="control">
+                                                <a class="button is-static is-small is-rounded">mm</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="field has-addons">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                                            @error('A2')
+                                                                                                                    is-danger
+                                                                            @enderror" type="number" name="A2" id="A2"
+                                                    placeholder="Maat A" value='{{ old('A2') }}'
                                                     onkeypress="return isNumberKey(this, event);">
                                             </div>
                                             <div class="control">
@@ -58,10 +74,24 @@
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input control is-small is-rounded
-                                                                                @error('B')
+                                                                                @error('B1')
                                                                                                                         is-danger
-                                                                                @enderror" type="number" name="B" id="B"
-                                                    placeholder="Maat B" value='{{ old('B') }}'>
+                                                                                @enderror" type="number" name="B1" id="B1"
+                                                    placeholder="Maat B" value='{{ old('B1') }}'>
+                                            </div>
+                                            <div class="control">
+                                                <a class="button is-static is-small is-rounded">mm</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="field has-addons">
+                                            <div class="control">
+                                                <input class="input control is-small is-rounded
+                                                                                @error('B2')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="B2" id="B2"
+                                                    placeholder="Maat B" value='{{ old('B2') }}'>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -75,10 +105,24 @@
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input control is-small is-rounded
-                                                                                @error('C')
+                                                                                @error('C1')
                                                                                                                         is-danger
-                                                                                @enderror" type="number" name="C" id="C"
-                                                    placeholder="Maat C" value='{{ old('C') }}'>
+                                                                                @enderror" type="number" name="C1" id="C1"
+                                                    placeholder="Maat C" value='{{ old('C1') }}'>
+                                            </div>
+                                            <div class="control">
+                                                <a class="button is-static is-small is-rounded">mm</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="field has-addons">
+                                            <div class="control">
+                                                <input class="input control is-small is-rounded
+                                                                                @error('C2')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="C2" id="C2"
+                                                    placeholder="Maat C" value='{{ old('C2') }}'>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -92,10 +136,24 @@
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input is-small is-rounded
-                                                                                @error('afschot')
+                                                                                @error('afschot1')
                                                                                                                         is-danger
-                                                                                @enderror" type="number" name="afschot"
-                                                    id="afschot" placeholder="Afschot" value='{{ old('afschot') }}'>
+                                                                                @enderror" type="number" name="afschot1"
+                                                    id="afschot1" placeholder="Afschot" value='{{ old('afschot1') }}'>
+                                            </div>
+                                            <div class="control">
+                                                <a class="button is-static is-small is-rounded">graden</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="field has-addons">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                                                @error('afschot2')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="afschot2"
+                                                    id="afschot2" placeholder="Afschot" value='{{ old('afschot2') }}'>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">graden</a>
@@ -109,10 +167,24 @@
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input is-small is-rounded
-                                                                                @error('length')
+                                                                                @error('length1')
                                                                                                                         is-danger
-                                                                                @enderror" type="number" name="length"
-                                                    id="length" placeholder="Lengte" value='{{ old('length') }}'>
+                                                                                @enderror" type="number" name="length1"
+                                                    id="length1" placeholder="Lengte" value='{{ old('length1') }}'>
+                                            </div>
+                                            <div class="control">
+                                                <a class="button is-static is-small is-rounded">mm</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="field has-addons">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                                                @error('length2')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="length2"
+                                                    id="length2" placeholder="Lengte" value='{{ old('length2') }}'>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -126,10 +198,21 @@
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input is-small is-rounded
-                                                                                @error('ammount')
+                                                                                @error('ammount1')
                                                                                                                         is-danger
-                                                                                @enderror" type="number" name="ammount"
-                                                    id="ammount" placeholder="Aantal" value='{{ old('ammount') }}'>
+                                                                                @enderror" type="number" name="ammount1"
+                                                    id="ammount1" placeholder="Aantal" value='{{ old('ammount1') }}'>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="field has-addons">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                                                @error('ammount2')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="ammount2"
+                                                    id="ammount2" placeholder="Aantal" value='{{ old('ammount2') }}'>
                                             </div>
                                         </div>
                                     </td>
