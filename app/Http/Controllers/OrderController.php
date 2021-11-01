@@ -48,6 +48,10 @@ class OrderController extends Controller
     public function store(Request $request)
     {
 
+        // dd(
+        //     serialize($request->A)
+        // );
+
         $request->validate([
             'companyName'=>'',
             'name'=>'required',
@@ -62,7 +66,7 @@ class OrderController extends Controller
             'C'=>'required',
             'afschot'=>'required',
             'length'=>'required',
-            'ammount'=>'required',
+            'amount'=>'required',
             'powdercoat'=>'required',
             'RAL'=>'',
             'matte'=>'',
@@ -133,6 +137,8 @@ class OrderController extends Controller
 
         $customer_id = $customer->id;
 
+        //$seriA = $request->
+
         if ($request->image) {
             $fileExtension = $request->image->extension();
 
@@ -156,7 +162,7 @@ class OrderController extends Controller
             'C'=>'required',
             'afschot'=>'required',
             'length'=>'required',
-            'ammount'=>'required',
+            'amount'=>'required',
             'powdercoat'=>'required',
             'RAL'=>'',
             'matte'=>'',

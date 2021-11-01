@@ -26,9 +26,7 @@
                 <table class="table">
                     <thead>
                         <tr id="top-row">
-                            <th></th>
-                            <th></th>
-                            <th></th>
+                            <th></th><th></th><th></th><th></th><th></th>
                         </tr>
                     </thead>
                     {{-- Main table container --}}
@@ -37,29 +35,14 @@
                             <tbody>
                                 <tr>
                                     <th>Maat A:</th>
-                                    <td>
+                                    <td id="fieldA">
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input is-small is-rounded
-                                                                            @error('A1')
+                                                                            @error('A[]')
                                                                                                                     is-danger
-                                                                            @enderror" type="number" name="A1" id="A1"
-                                                    placeholder="Maat A" value='{{ old('A1') }}'
-                                                    onkeypress="return isNumberKey(this, event);">
-                                            </div>
-                                            <div class="control">
-                                                <a class="button is-static is-small is-rounded">mm</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="field has-addons">
-                                            <div class="control">
-                                                <input class="input is-small is-rounded
-                                                                            @error('A2')
-                                                                                                                    is-danger
-                                                                            @enderror" type="number" name="A2" id="A2"
-                                                    placeholder="Maat A" value='{{ old('A2') }}'
+                                                                            @enderror" type="number" name="A[]" id="A[]"
+                                                    placeholder="Maat A" value='{{ old('A[]') }}'
                                                     onkeypress="return isNumberKey(this, event);">
                                             </div>
                                             <div class="control">
@@ -70,28 +53,14 @@
                                 </tr>
                                 <tr>
                                     <th>Maat B:</th>
-                                    <td>
+                                    <td id="fieldB">
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input control is-small is-rounded
-                                                                                @error('B1')
+                                                                                @error('B[]')
                                                                                                                         is-danger
-                                                                                @enderror" type="number" name="B1" id="B1"
-                                                    placeholder="Maat B" value='{{ old('B1') }}'>
-                                            </div>
-                                            <div class="control">
-                                                <a class="button is-static is-small is-rounded">mm</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="field has-addons">
-                                            <div class="control">
-                                                <input class="input control is-small is-rounded
-                                                                                @error('B2')
-                                                                                                                        is-danger
-                                                                                @enderror" type="number" name="B2" id="B2"
-                                                    placeholder="Maat B" value='{{ old('B2') }}'>
+                                                                                @enderror" type="number" name="B[]" id="B[]"
+                                                    placeholder="Maat B" value='{{ old('B[]') }}'>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -101,28 +70,14 @@
                                 </tr>
                                 <tr>
                                     <th>Maat C:</th>
-                                    <td>
+                                    <td id="fieldC">
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input control is-small is-rounded
-                                                                                @error('C1')
+                                                                                @error('C[]')
                                                                                                                         is-danger
-                                                                                @enderror" type="number" name="C1" id="C1"
-                                                    placeholder="Maat C" value='{{ old('C1') }}'>
-                                            </div>
-                                            <div class="control">
-                                                <a class="button is-static is-small is-rounded">mm</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="field has-addons">
-                                            <div class="control">
-                                                <input class="input control is-small is-rounded
-                                                                                @error('C2')
-                                                                                                                        is-danger
-                                                                                @enderror" type="number" name="C2" id="C2"
-                                                    placeholder="Maat C" value='{{ old('C2') }}'>
+                                                                                @enderror" type="number" name="C[]" id="C[]"
+                                                    placeholder="Maat C" value='{{ old('C[]') }}'>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -132,28 +87,14 @@
                                 </tr>
                                 <tr>
                                     <th>Afschot:</th>
-                                    <td>
+                                    <td id="fieldAfschot">
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input is-small is-rounded
-                                                                                @error('afschot1')
+                                                                                @error('afschot[]')
                                                                                                                         is-danger
-                                                                                @enderror" type="number" name="afschot1"
-                                                    id="afschot1" placeholder="Afschot" value='{{ old('afschot1') }}'>
-                                            </div>
-                                            <div class="control">
-                                                <a class="button is-static is-small is-rounded">graden</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="field has-addons">
-                                            <div class="control">
-                                                <input class="input is-small is-rounded
-                                                                                @error('afschot2')
-                                                                                                                        is-danger
-                                                                                @enderror" type="number" name="afschot2"
-                                                    id="afschot2" placeholder="Afschot" value='{{ old('afschot2') }}'>
+                                                                                @enderror" type="number" name="afschot[]"
+                                                    id="afschot[]" placeholder="Afschot" value='{{ old('afschot[]') }}'>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">graden</a>
@@ -163,28 +104,14 @@
                                 </tr>
                                 <tr>
                                     <th>Lengte:</th>
-                                    <td>
+                                    <td id="fieldLength">
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input is-small is-rounded
-                                                                                @error('length1')
+                                                                                @error('length[]')
                                                                                                                         is-danger
-                                                                                @enderror" type="number" name="length1"
-                                                    id="length1" placeholder="Lengte" value='{{ old('length1') }}'>
-                                            </div>
-                                            <div class="control">
-                                                <a class="button is-static is-small is-rounded">mm</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="field has-addons">
-                                            <div class="control">
-                                                <input class="input is-small is-rounded
-                                                                                @error('length2')
-                                                                                                                        is-danger
-                                                                                @enderror" type="number" name="length2"
-                                                    id="length2" placeholder="Lengte" value='{{ old('length2') }}'>
+                                                                                @enderror" type="number" name="length[]"
+                                                    id="length[]" placeholder="Lengte" value='{{ old('length[]') }}'>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -194,25 +121,14 @@
                                 </tr>
                                 <tr>
                                     <th>Aantal</th>
-                                    <td>
+                                    <td id="fieldAmount">
                                         <div class="field has-addons">
                                             <div class="control">
                                                 <input class="input is-small is-rounded
-                                                                                @error('ammount1')
+                                                                                @error('amount[]')
                                                                                                                         is-danger
-                                                                                @enderror" type="number" name="ammount1"
-                                                    id="ammount1" placeholder="Aantal" value='{{ old('ammount1') }}'>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="field has-addons">
-                                            <div class="control">
-                                                <input class="input is-small is-rounded
-                                                                                @error('ammount2')
-                                                                                                                        is-danger
-                                                                                @enderror" type="number" name="ammount2"
-                                                    id="ammount2" placeholder="Aantal" value='{{ old('ammount2') }}'>
+                                                                                @enderror" type="number" name="amount[]"
+                                                    id="amount[]" placeholder="Aantal" value='{{ old('amount[]') }}'>
                                             </div>
                                         </div>
                                     </td>
@@ -220,7 +136,7 @@
                             </tbody>
                         </div>
                         <div class="level-right">
-                            <a class="button level-item">+</a>
+                            <a class="button level-item" onclick="addField()">+</a>
                         </div>
                     </nav>
 
@@ -543,7 +459,10 @@
     <section class="section is-small"></section>
 
     <script>
+
         let fileInput = document.querySelector('#file-js-example input[type=file]');
+        let fieldAmount = 1
+
         fileInput.onchange = () => {
             let checkFileName = document.querySelector('#file-js-example input[type=file]').value.toLowerCase()
 
@@ -577,6 +496,30 @@
         }
         return true;
         }
+
+        function addField() {
+
+            fieldAmount++
+            let fields = [
+                'fieldA',
+                'fieldB',
+                'fieldC',
+                'fieldAfschot',
+                'fieldLength',
+                'fieldAmount'
+            ]
+
+            if (fieldAmount < 5) {
+                fields.forEach( function(item) {
+                let field = document.getElementById(item)
+                let clone = field.cloneNode(true);
+                document.getElementById(item).after(clone);
+                console.log(fieldAmount)
+            })
+            }
+        }
+
+
     </script>
 
 @endsection

@@ -123,7 +123,7 @@ class PDFGenController extends Controller
         $priceList= PriceList::all()->where('id', '=', '1')->first();
 
         $uitslag = $orderData->A + $orderData->B + $orderData->C + 11;
-        $surfaceArea = ($uitslag * $orderData->length * $orderData->ammount) / 1000000;
+        $surfaceArea = ($uitslag * $orderData->length * $orderData->amount) / 1000000;
 
 
         // Form title string of main item
@@ -147,7 +147,7 @@ class PDFGenController extends Controller
         (new InvoiceItem())
             ->title($MainItemString)
             ->pricePerUnit($MainItemPrice)
-            ->quantity($orderData->ammount),
+            ->quantity($orderData->amount),
         ];
 
         // Mat

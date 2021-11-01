@@ -13,13 +13,22 @@ class Order extends Model
         return $this->hasOne(Customer::class);
     }
 
+    protected $casts = [
+        'A' => 'array',
+        'B' => 'array',
+        'C' => 'array',
+        'afschot' => 'array',
+        'length' => 'array',
+        'amount' => 'array',
+    ];
+
     protected $fillable = [
         'A',
         'B',
         'C',
         'afschot',
         'length',
-        'ammount',
+        'amount',
         'powdercoat',
         'RAL',
         'matte',

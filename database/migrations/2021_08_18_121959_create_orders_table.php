@@ -17,12 +17,12 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             // Object mesurements
-            $table->integer('A');
-            $table->integer('B');
-            $table->integer('C');
-            $table->integer('afschot');
-            $table->integer('length');
-            $table->integer('ammount');
+            $table->json('A');
+            $table->json('B');
+            $table->json('C');
+            $table->json('afschot');
+            $table->json('length');
+            $table->json('amount');
             // Finish
             $table->boolean('powdercoat')->default(false);
             $table->string('RAL')->nullable();
