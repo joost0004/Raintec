@@ -78,20 +78,16 @@ return [
          * Default attributes for Seller::class
          */
         'attributes' => [
-            'name'          => 'Towne, Smith and Ebert',
-            'address'       => '89982 Pfeffer Falls Damianstad, CO 66972-8160',
-            'code'          => '41-1985581',
-            'vat'           => '123456789',
-            'phone'         => '760-355-3930',
+            'name'          => 'Raintec BV',
+            'phone'         => '0113-340436',
+            'address' => "Ambachtsweg 13, 4421SK Kapelle",
             'custom_fields' => [
-                /**
-                 * Custom attributes for Seller::class
-                 *
-                 * Used to display additional info on Seller section in invoice
-                 * attribute => value
-                 */
-                'SWIFT' => 'BANK101',
-            ],
+                'email' => "info@raintec.nl",
+                'K.v.K.' => "22044377",
+                'BTW nr.' => 'NL 8105 37 412 B01',
+                'Bank BIC' => 'ABNANL2A',
+                'IBAN' => 'NL74ABNA 0975 539 868'
+        ],
         ],
     ],
 ];

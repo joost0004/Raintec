@@ -10,7 +10,7 @@
                 margin-left: auto;
                 margin-right: auto;">
             </section>
-            <form method='POST' enctype="multipart/form-data" action="/orders">
+            <form method='POST' enctype="multipart/form-data" action="/orders" name="offerte">
                 @csrf
 
                 @if ($errors->any())
@@ -26,13 +26,13 @@
                 <table class="table">
                     <thead>
                         <tr id="top-row">
-                            <th></th><th></th><th></th><th></th><th></th>
+                            <th></th><th></th><th></th><th></th><th></th><th></th>
                         </tr>
                     </thead>
                     {{-- Main table container --}}
                     <nav class="level">
                         <div class="level-left">
-                            <tbody>
+                            <tbody id="table-fields">
                                 <tr>
                                     <th>Maat A:</th>
                                     <td id="fieldA">
@@ -49,6 +49,11 @@
                                                 <a class="button is-static is-small is-rounded">mm</a>
                                             </div>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <a class="button level-item" id="add-button" onclick="addField()"
+                                        style="position: absolute; height: 10.5%; width:10%; margin-left: 5%;"
+                                        >+</a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -135,8 +140,130 @@
                                 </tr>
                             </tbody>
                         </div>
-                        <div class="level-right">
-                            <a class="button level-item" onclick="addField()">+</a>
+                    </nav>
+
+                </table>
+                {{-- Hidden second mesurement table --}}
+                <table class="table" id="temp-add-button">
+                    <thead></thead>
+                    <nav class="level"></nav>
+                </table>
+
+                <table class="table" id="bottom-table" style="display: none">
+                    <thead>
+                        <tr id="top-row">
+                            <th></th><th></th><th></th><th></th><th></th><th></th>
+                        </tr>
+                    </thead>
+                    <nav class="level">
+                        <div class="level-left">
+                            <tbody id="table-fields">
+                                <tr>
+                                    <th>Maat A:</th>
+                                    <td id="fieldA2">
+                                        <div class="field has-addons">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                                            @error('A[]')
+                                                                                                                    is-danger
+                                                                            @enderror" type="number" name="A[]" id="A[]"
+                                                    placeholder="Maat A" value='{{ old('A[]') }}'
+                                                    onkeypress="return isNumberKey(this, event);">
+                                            </div>
+                                            <div class="control">
+                                                <a class="button is-static is-small is-rounded">mm</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a class="button level-item" id="add-button" onclick="addField()"
+                                        style="position: absolute; height: 9.5%; width:10%; margin-left: 5%;"
+                                        >+</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Maat B:</th>
+                                    <td id="fieldB2">
+                                        <div class="field has-addons">
+                                            <div class="control">
+                                                <input class="input control is-small is-rounded
+                                                                                @error('B[]')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="B[]" id="B[]"
+                                                    placeholder="Maat B" value='{{ old('B[]') }}'>
+                                            </div>
+                                            <div class="control">
+                                                <a class="button is-static is-small is-rounded">mm</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Maat C:</th>
+                                    <td id="fieldC2">
+                                        <div class="field has-addons">
+                                            <div class="control">
+                                                <input class="input control is-small is-rounded
+                                                                                @error('C[]')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="C[]" id="C[]"
+                                                    placeholder="Maat C" value='{{ old('C[]') }}'>
+                                            </div>
+                                            <div class="control">
+                                                <a class="button is-static is-small is-rounded">mm</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Afschot:</th>
+                                    <td id="fieldAfschot2">
+                                        <div class="field has-addons">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                                                @error('afschot[]')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="afschot[]"
+                                                    id="afschot[]" placeholder="Afschot" value='{{ old('afschot[]') }}'>
+                                            </div>
+                                            <div class="control">
+                                                <a class="button is-static is-small is-rounded">graden</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Lengte:</th>
+                                    <td id="fieldLength2">
+                                        <div class="field has-addons">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                                                @error('length[]')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="length[]"
+                                                    id="length[]" placeholder="Lengte" value='{{ old('length[]') }}'>
+                                            </div>
+                                            <div class="control">
+                                                <a class="button is-static is-small is-rounded">mm</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Aantal</th>
+                                    <td id="fieldAmount2">
+                                        <div class="field has-addons">
+                                            <div class="control">
+                                                <input class="input is-small is-rounded
+                                                                                @error('amount[]')
+                                                                                                                        is-danger
+                                                                                @enderror" type="number" name="amount[]"
+                                                    id="amount[]" placeholder="Aantal" value='{{ old('amount[]') }}'>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </div>
                     </nav>
 
@@ -152,16 +279,17 @@
                     Afwerking:
                 </h1>
 
-                <nav class="level">
+                <nav class="level is-mobile">
                     <div class="level-item has-text">
                         <div class="mt-4">
-                            <input type="radio" id="false" name="powdercoat" value="false">
+                            <input type="radio" id="brute" name="powdercoat" value="false">
                             <label for="false">Aluminium brute</label><br>
-                            <input type="radio" id="true" name="powdercoat" value="true">
+                            <input type="radio" id="coat" name="powdercoat" value="true">
                             <label for="true">Gepoedercoat</label><br>
                         </div>
                     </div>
-                    <div class="level-item has-text-centered powdercoat">
+                    <div class="level-item has-text-centered" id="powdercoat-extra1"
+                        style="visibility: hidden">
                         <div class="field has-addons">
                             <div class="control">
                                 <a class="button is-small is-rounded" href="https://www.ralcolorchart.com/">RAL kleur:</a>
@@ -175,7 +303,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="level-item has-text powdercoat">
+                    <div class="level-item has-text" id="powdercoat-extra2"
+                        style="visibility: hidden">
                         <label class="checkbox">
                             <input type="checkbox" name="matte" value="true">
                             Mat<br>
@@ -185,7 +314,7 @@
                             Sea-Side voorbehandeling<br>
                         </label>
                     </div>
-                </nav>
+                  </nav>
 
                 <section class="section is-small">
                     <hr class="divider">
@@ -196,8 +325,8 @@
                 </h1><br>
 
 
-                <nav class="level">
-                    <div class="level-item">
+                <nav class="level is-mobile">
+                    <div class="level-item has-text-centered">
                         <a>Kopschotten: </a>
                         <div class="select">
 
@@ -211,8 +340,7 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="level-item">
+                    <div class="level-item has-text-centered">
                         <a>Anti-dreun folie: </a>
                         <div class="select">
 
@@ -223,9 +351,9 @@
                             </select>
                         </div>
                     </div>
-
-
-                    <div class="level-item">
+                </nav><br>
+                <nav class="level is-mobile">
+                    <div class="level-item has-text-centered">
                         <a>Koppelstukken: </a>
                         <div class="select">
 
@@ -235,9 +363,7 @@
                             </select>
                         </div>
                     </div>
-
-
-                    <div class="level-item">
+                    <div class="level-item has-text-centered">
                         <a>Ankers: </a>
                         <div class="select">
                             <select name="ankers" id="ankers" class="">
@@ -246,9 +372,9 @@
                             </select>
                         </div>
                     </div>
-
-
-                    <div class="level-item">
+                </nav>
+                <nav class="level is-mobile">
+                    <div class="level-item has-text-centered">
                         <a>Hoekstukken: </a>
                         <div class="select">
                             <select name="hoekstukken" id="hoekstukken" class="">
@@ -257,7 +383,6 @@
                             </select>
                         </div>
                     </div>
-
                 </nav>
 
                 <section class="section is-small">
@@ -267,20 +392,6 @@
                 <h1>
                     Foto of tekening:
                 </h1><br>
-
-                {{-- <div class="file is-boxed">
-                    <label class="file-label">
-                        <input class="file-input" type="file" name="image">
-                        <span class="file-cta">
-                            <span class="file-icon">
-                                <i class="fas fa-upload"></i>
-                            </span>
-                            <span class="file-label">
-                                Choose a file…
-                            </span>
-                        </span>
-                    </label>
-                </div> --}}
 
                 <div id="file-js-example" class="file has-name">
                     <label class="file-label">
@@ -458,68 +569,6 @@
     </div>
     <section class="section is-small"></section>
 
-    <script>
-
-        let fileInput = document.querySelector('#file-js-example input[type=file]');
-        let fieldAmount = 1
-
-        fileInput.onchange = () => {
-            let checkFileName = document.querySelector('#file-js-example input[type=file]').value.toLowerCase()
-
-                if (   !checkFileName.endsWith('.png')
-                    && !checkFileName.endsWith('.jpg')
-                    && !checkFileName.endsWith(".jpeg"))
-                {
-                alert('Please use only one of the following image types: PNG, JPG, JPEG');
-                fileInput.reset();
-                }
-
-            if (fileInput.files.length > 0) {
-            const fileName = document.querySelector('#file-js-example .file-name');
-            fileName.textContent = fileInput.files[0].name;
-          }
-        }
-
-        function isNumberKey(txt, evt) {
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        if (charCode == 46) {
-            //Check if the text already contains the . character
-            if (txt.value.indexOf('.') === -1) {
-            return true;
-            } else {
-            return false;
-            }
-        } else {
-            if (charCode > 31 &&
-            (charCode < 48 || charCode > 57))
-            return false;
-        }
-        return true;
-        }
-
-        function addField() {
-
-            fieldAmount++
-            let fields = [
-                'fieldA',
-                'fieldB',
-                'fieldC',
-                'fieldAfschot',
-                'fieldLength',
-                'fieldAmount'
-            ]
-
-            if (fieldAmount < 5) {
-                fields.forEach( function(item) {
-                let field = document.getElementById(item)
-                let clone = field.cloneNode(true);
-                document.getElementById(item).after(clone);
-                console.log(fieldAmount)
-            })
-            }
-        }
-
-
-    </script>
+    <script defer src="{{ asset('js/waterslagForm.js')}}"></script>
 
 @endsection

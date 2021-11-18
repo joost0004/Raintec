@@ -69,16 +69,15 @@
             .table td {
                 padding: 0.75rem;
                 vertical-align: top;
+            }
+
+            .table.table-items td {
                 border-top: 1px solid #dee2e6;
             }
 
             .table thead th {
                 vertical-align: bottom;
                 border-bottom: 2px solid #dee2e6;
-            }
-
-            .table tbody + tbody {
-                border-top: 2px solid #dee2e6;
             }
 
             .mt-5 {
@@ -123,6 +122,9 @@
             .border-0 {
                 border: none !important;
             }
+            .cool-gray {
+                color: #6B7280;
+            }
         </style>
     </head>
 
@@ -131,6 +133,7 @@
         @if($invoice->logo)
             <img src="{{ $invoice->getLogo() }}" alt="logo" height="100">
         @endif
+
         <table class="table mt-5">
             <tbody>
                 <tr>
@@ -140,6 +143,11 @@
                         </h4>
                     </td>
                     <td class="border-0 pl-0">
+                        @if($invoice->status)
+                            <h4 class="text-uppercase cool-gray">
+                                <strong>{{ $invoice->status }}</strong>
+                            </h4>
+                        @endif
                         <p>{{ __('invoices::invoice.serial') }} <strong>{{ $invoice->getSerialNumber() }}</strong></p>
                         <p>{{ __('invoices::invoice.date') }}: <strong>{{ $invoice->getDate() }}</strong></p>
                     </td>
@@ -242,7 +250,7 @@
         </table>
 
         {{-- Table --}}
-        <table class="table">
+        <table class="table table-items">
             <thead>
                 <tr>
                     <th scope="col" class="border-0 pl-0">{{ __('invoices::invoice.description') }}</th>
@@ -264,7 +272,15 @@
                 {{-- Items --}}
                 @foreach($invoice->items as $item)
                 <tr>
-                    <td class="pl-0">{{ $item->title }}</td>
+                    <td class="pl-0">
+                        {{ $item->title }}
+
+                        @if($item->description)
+                            @foreach ($item->description as $description_text)
+                            <br><a class="cool-gray">{{ $description_text }}</a>
+                            @endforeach
+                        @endif
+                    </td>
                     @if($invoice->hasItemUnits)
                         <td class="text-center">{{ $item->units }}</td>
                     @endif

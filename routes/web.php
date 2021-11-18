@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFGenController;
+use App\Http\Controllers\TestPDFGen;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PriceListController;
 
@@ -24,9 +25,13 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/test', [PDFGenController::class, 'show']);
+Route::get('/test', function () {
+    return view('testing');
+});
 
-Route::get('/gen/{orderId}', [PDFGenController::class, 'createInvoice']);
+// Route::get('/gen/{orderId}', [PDFGenController::class, 'createInvoice']);
+
+Route::get('/gen/{orderId}', [TestPDFGen::class, 'createInvoice']);
 
 Route::get('/sendOfferte/{orderId}', [PDFGenController::class, 'sendMail']);
 

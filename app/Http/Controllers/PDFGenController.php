@@ -13,15 +13,6 @@ use App\Models\Order;
 use App\Models\PriceList;
 use App\Models\Customer;
 
-$client = new Party([
-    'name'          => 'Raintec BV',
-    'phone'         => '0113-340436',
-    'address' => "Ambachtsweg 13, 4421SK Kapelle",
-    'custom_fields' => [
-        'email' => "info@raintec.nl",
-],
-]);
-
 
 class PDFGenController extends Controller
 {
@@ -122,117 +113,128 @@ class PDFGenController extends Controller
         // Pulling in the price list
         $priceList= PriceList::all()->where('id', '=', '1')->first();
 
-        $uitslag = $orderData->A + $orderData->B + $orderData->C + 11;
-        $surfaceArea = ($uitslag * $orderData->length * $orderData->amount) / 1000000;
+        $amountItems = count($orderData->A) - 1;
+
+        for($i = 0; $i <= $amountItems; $i++)
+        {
+                $uitslag = $orderData->A[$i] + $orderData->B[$i] + $orderData->C[$i] + 11;
+                $surfaceArea = ($uitslag * $orderData->length[$i] * $orderData->amount[$i]) / 1000000;
 
 
-        // Form title string of main item
-        switch ($orderData->powdercoat) {
-            case 1:
-                $MainItemString = "Aluminium zetwerk gepoedercoat in $orderData->RAL. Totaal $orderData->length mm $surfaceArea";
-                if ($surfaceArea < 10) {
-                    $MainItemPrice = ($priceList->product * $surfaceArea) + $priceList->poedercoat;
-                } else {
-                    $MainItemPrice = ($priceList->product * $surfaceArea) + ($surfaceArea * $priceList->poedercoat10);
-                }
-                break;
-            case 0:
-                $MainItemString = "Aluminium zetwerk brute. Totaal $orderData->length mm";
-                $MainItemPrice =  $priceList->product * $surfaceArea;
-                break;
-        }
+            // Form title string of main item
+            switch ($orderData->powdercoat) {
+                case 1:
+                    $MainItemLength = $orderData->length[$i];
+                    $MainItemString = "Aluminium zetwerk gepoedercoat in $orderData->RAL. Totaal $MainItemLength mm $surfaceArea";
+                    if ($surfaceArea < 10) {
+                        $MainItemPrice = ($priceList->product * $surfaceArea) + $priceList->poedercoat;
+                    } else {
+                        $MainItemPrice = ($priceList->product * $surfaceArea) + ($surfaceArea * $priceList->poedercoat10);
+                    }
+                    break;
+                case 0:
+                    $MainItemLength = $orderData->length[$i];
+                    $MainItemString = "Aluminium zetwerk brute. Totaal $MainItemLength mm";
+                    $MainItemPrice =  $priceList->product * $surfaceArea;
+                    break;
+            }
 
-        $items = [
-        // Form main item
-        (new InvoiceItem())
-            ->title($MainItemString)
-            ->pricePerUnit($MainItemPrice)
-            ->quantity($orderData->amount),
-        ];
+            $items = [
+            // Form main item
+            (new InvoiceItem())
+                ->title($MainItemString)
+                ->pricePerUnit($MainItemPrice)
+                ->quantity($orderData->amount[$i]),
+            ];
 
-        // Mat
-        if ($orderData->matte === 1) {
-            $matte = (new InvoiceItem())
-            ->title("Mat behandeling")
-            ->pricePerUnit(1 * $surfaceArea);
-            array_push($items, $matte);
-        }
+            // Mat
+            if ($orderData->matte === 1) {
+                $matte = (new InvoiceItem())
+                ->title("Mat behandeling")
+                ->pricePerUnit(1 * $surfaceArea);
+                array_push($items, $matte);
+            }
 
-        // Fijn structuur
-        if ($orderData->fine === 1) {
-            $fine = (new InvoiceItem())
-            ->title("Fijn structuur")
-            ->pricePerUnit(1 * $surfaceArea);
-            array_push($items, $fine);
-        }
+            // Fijn structuur
+            if ($orderData->fine === 1) {
+                $fine = (new InvoiceItem())
+                ->title("Fijn structuur")
+                ->pricePerUnit(1 * $surfaceArea);
+                array_push($items, $fine);
+            }
 
-        // Seaside voorbehandeling
-        if ($orderData->seasidePrep === 1) {
-            $seasidePrep = (new InvoiceItem())
-            ->title("Seaside voorbehandeling")
-            ->pricePerUnit(1 * $surfaceArea);
-            array_push($items, $seasidePrep);
-        }
+            // Seaside voorbehandeling
+            if ($orderData->seasidePrep === 1) {
+                $seasidePrep = (new InvoiceItem())
+                ->title("Seaside voorbehandeling")
+                ->pricePerUnit(1 * $surfaceArea);
+                array_push($items, $seasidePrep);
+            }
 
-        // Kopschotten item
-        switch ($orderData->kopschotten) {
-            case 1:
-                $kopschotten = (new InvoiceItem())
-                ->title("Gelaste kopschotten waterslagen")
-                ->pricePerUnit($priceList->kopschotten)
-                ->quantity(2);
-                array_push($items, $kopschotten);
-                break;
-            case 2:
-                $kopschotten = (new InvoiceItem())
-                ->title("Kopschotten waterslagen, los geleverd")
-                ->pricePerUnit($priceList->kopschotten)
-                ->quantity(2);
-                array_push($items, $kopschotten);
-                break;
-            case 3:
-                $kopschotten = (new InvoiceItem())
-                ->title("Kopschotten waterslagen, geschikt voor stucwerk")
-                ->pricePerUnit($priceList->kopschotten)
-                ->quantity(2);
-                array_push($items, $kopschotten);
-                break;
-            default:
-                break;
-        }
+            // Kopschotten item
+            switch ($orderData->kopschotten) {
+                case 1:
+                    $kopschotten = (new InvoiceItem())
+                    ->title("Gelaste kopschotten waterslagen")
+                    ->pricePerUnit($priceList->kopschotten)
+                    ->quantity(2);
+                    array_push($items, $kopschotten);
+                    break;
+                case 2:
+                    $kopschotten = (new InvoiceItem())
+                    ->title("Kopschotten waterslagen, los geleverd")
+                    ->pricePerUnit($priceList->kopschotten)
+                    ->quantity(2);
+                    array_push($items, $kopschotten);
+                    break;
+                case 3:
+                    $kopschotten = (new InvoiceItem())
+                    ->title("Kopschotten waterslagen, geschikt voor stucwerk")
+                    ->pricePerUnit($priceList->kopschotten)
+                    ->quantity(2);
+                    array_push($items, $kopschotten);
+                    break;
+                default:
+                    break;
+            }
 
 
-        // AntiDreun item
-        switch ($orderData->antiDreun) {
-            case 1:
-                $antiDreun = (new InvoiceItem())
-                ->title("Anti-dreunfolie 50mm, los geleverd")
-                ->pricePerUnit($priceList->antiDreun)
+            // AntiDreun item
+            switch ($orderData->antiDreun) {
+                case 1:
+                    $antiDreun = (new InvoiceItem())
+                    ->title("Anti-dreunfolie 50mm, los geleverd")
+                    ->pricePerUnit($priceList->antiDreun)
+                    ->quantity(1);
+                    array_push($items, $antiDreun);
+                    break;
+                case 2:
+                    $antiDreun = (new InvoiceItem())
+                    ->title("Anti-dreunfolie 50mm, aangebracht")
+                    ->pricePerUnit($priceList->antiDreun)
+                    ->quantity(1);
+                    array_push($items, $antiDreun);
+                    break;
+                default:
+                    break;
+            }
+
+            // Koppelstukken
+            if ($orderData->length[$i] >= 3000) {
+                $koppelstuk = (new InvoiceItem())
+                ->title("Koppelstukken waterslag(en)")
+                ->pricePerUnit($priceList->koppelstukken)
                 ->quantity(1);
-                array_push($items, $antiDreun);
-                break;
-            case 2:
-                $antiDreun = (new InvoiceItem())
-                ->title("Anti-dreunfolie 50mm, aangebracht")
-                ->pricePerUnit($priceList->antiDreun)
-                ->quantity(1);
-                array_push($items, $antiDreun);
-                break;
-            default:
-                break;
+                array_push($items, $koppelstuk);
+            }
+
+
+
         }
 
-        // Koppelstukken
-        if ($orderData->length >= 3000) {
-            $koppelstuk = (new InvoiceItem())
-            ->title("Koppelstukken waterslag(en)")
-            ->pricePerUnit($priceList->koppelstukken)
-            ->quantity(1);
-            array_push($items, $koppelstuk);
-        }
+        // return $items;
+        dd($items);
 
-
-        return $items;
 
     }
 

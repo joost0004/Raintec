@@ -3,7 +3,7 @@
 
 <head>
     <title>Raintec</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ asset('css/mystyles.css')}}">
     <style>
         hr.divider {
             border-top: 2px solid rgb(175, 175, 175);
