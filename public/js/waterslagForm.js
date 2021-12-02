@@ -71,17 +71,24 @@ function addField() {
     if (fieldAmount == 5) {
         let button = document.getElementById("add-button");
         let buttonClone = button.cloneNode(true);
-        let buttonspace2 = document.getElementById("add-button-space2");
-        buttonspace2.appendChild(buttonClone)
-        button.parentNode.removeChild(button)
+        let buttonspace2 = document.getElementById("temp-add-button");
+        let bottomTable = document.getElementById("bottom-table");
+        bottomTable.style.visibility = "hidden";
+        bottomTable.style.display = "";
+        buttonspace2.appendChild(buttonClone);
+        button.parentNode.removeChild(button);
     }
 
     if (fieldAmount == 6) {
         let bottomTable = document.getElementById("bottom-table");
+        bottomTable.style.visibility = "";
+        document.getElementById("temp-add-button").style.display = "none";
         bottomTable.style.display = "";
+
+        bottomTable.innerHTML.replace(`disabled="disabled"`, ` `);
     }
 
-    if (fieldAmount > 5) {
+    if (fieldAmount > 6) {
         fields.forEach(function (item) {
             let fieldName = item += "2";
             let field = document.getElementById(fieldName);
@@ -90,8 +97,8 @@ function addField() {
         })
     }
 
-    if (fieldAmount == 9) {
-        let button = document.getElementById("add-button");
+    if (fieldAmount == 10) {
+        let button = document.getElementById("add-button2");
         button.parentNode.removeChild(button)
     }
 }

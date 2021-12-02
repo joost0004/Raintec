@@ -65,7 +65,8 @@
                                                                                 @error('B[]')
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="B[]" id="B[]"
-                                                    placeholder="Maat B" value='{{ old('B[]') }}'>
+                                                    placeholder="Maat B" value='{{ old('B[]') }}'
+                                                    onkeypress="return isNumberKey(this, event);">
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -82,7 +83,8 @@
                                                                                 @error('C[]')
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="C[]" id="C[]"
-                                                    placeholder="Maat C" value='{{ old('C[]') }}'>
+                                                    placeholder="Maat C" value='{{ old('C[]') }}'
+                                                    onkeypress="return isNumberKey(this, event);">
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -99,7 +101,8 @@
                                                                                 @error('afschot[]')
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="afschot[]"
-                                                    id="afschot[]" placeholder="Afschot" value='{{ old('afschot[]') }}'>
+                                                    id="afschot[]" placeholder="Afschot" value='{{ old('afschot[]') }}'
+                                                    onkeypress="return isNumberKey(this, event);">
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">graden</a>
@@ -116,7 +119,8 @@
                                                                                 @error('length[]')
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="length[]"
-                                                    id="length[]" placeholder="Lengte" value='{{ old('length[]') }}'>
+                                                    id="length[]" placeholder="Lengte" value='{{ old('length[]') }}'
+                                                    onkeypress="return isNumberKey(this, event);">
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -133,7 +137,8 @@
                                                                                 @error('amount[]')
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="amount[]"
-                                                    id="amount[]" placeholder="Aantal" value='{{ old('amount[]') }}'>
+                                                    id="amount[]" placeholder="Aantal" value='{{ old('amount[]') }}'
+                                                    onkeypress="return isNumberKey(this, event);">
                                             </div>
                                         </div>
                                     </td>
@@ -168,7 +173,7 @@
                                                                                                                     is-danger
                                                                             @enderror" type="number" name="A[]" id="A[]"
                                                     placeholder="Maat A" value='{{ old('A[]') }}'
-                                                    onkeypress="return isNumberKey(this, event);">
+                                                    onkeypress="return isNumberKey(this, event);" disabled="disabled">
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -176,7 +181,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a class="button level-item" id="add-button" onclick="addField()"
+                                        <a class="button level-item" id="add-button2" onclick="addField()"
                                         style="position: absolute; height: 9.5%; width:10%; margin-left: 5%;"
                                         >+</a>
                                     </td>
@@ -190,7 +195,8 @@
                                                                                 @error('B[]')
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="B[]" id="B[]"
-                                                    placeholder="Maat B" value='{{ old('B[]') }}'>
+                                                    placeholder="Maat B" value='{{ old('B[]') }}'
+                                                    onkeypress="return isNumberKey(this, event);" disabled="disabled">
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -207,7 +213,8 @@
                                                                                 @error('C[]')
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="C[]" id="C[]"
-                                                    placeholder="Maat C" value='{{ old('C[]') }}'>
+                                                    placeholder="Maat C" value='{{ old('C[]') }}'
+                                                    onkeypress="return isNumberKey(this, event);" disabled="disabled">
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -224,7 +231,8 @@
                                                                                 @error('afschot[]')
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="afschot[]"
-                                                    id="afschot[]" placeholder="Afschot" value='{{ old('afschot[]') }}'>
+                                                    id="afschot[]" placeholder="Afschot" value='{{ old('afschot[]') }}'
+                                                    onkeypress="return isNumberKey(this, event);" disabled="disabled">
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">graden</a>
@@ -241,7 +249,8 @@
                                                                                 @error('length[]')
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="length[]"
-                                                    id="length[]" placeholder="Lengte" value='{{ old('length[]') }}'>
+                                                    id="length[]" placeholder="Lengte" value='{{ old('length[]') }}'
+                                                    onkeypress="return isNumberKey(this, event);" disabled="disabled">
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -258,7 +267,8 @@
                                                                                 @error('amount[]')
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="amount[]"
-                                                    id="amount[]" placeholder="Aantal" value='{{ old('amount[]') }}'>
+                                                    id="amount[]" placeholder="Aantal" value='{{ old('amount[]') }}'
+                                                    onkeypress="return isNumberKey(this, event);" disabled="disabled">
                                             </div>
                                         </div>
                                     </td>

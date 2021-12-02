@@ -82,47 +82,65 @@ class OrderController extends Controller
             'notes'=>'',
         ]);
 
-        if (request('powdercoat') == 'true') {
-            $request->merge(['powdercoat' => true]);
-        } else {
-            $request->merge(['powdercoat' => false]);
-        };
+        $booleanFields = [
+            'powdercoat',
+            'matte',
+            'fine',
+            'seasidePrep',
+            'koppelstukken',
+            'ankers',
+            'hoekstukken'
+        ];
 
-        if (request('matte') == 'true') {
-            $request->merge(['matte' => true]);
-        } else {
-            $request->merge(['matte' => false]);
-        };
+        foreach ($booleanFields as $boolean) {
+            if (request($boolean) == 'true') {
+                $request->merge([$boolean => true]);
+            } else {
+                $request->merge([$boolean => false]);
+            };
+        }
 
-        if (request('fine') == 'true') {
-            $request->merge(['fine' => true]);
-        } else {
-            $request->merge(['fine' => false]);
-        };
+        // if (request('powdercoat') == 'true') {
+        //     $request->merge(['powdercoat' => true]);
+        // } else {
+        //     $request->merge(['powdercoat' => false]);
+        // };
 
-        if (request('seasidePrep') == 'true') {
-            $request->merge(['seasidePrep' => true]);
-        } else {
-            $request->merge(['seasidePrep' => false]);
-        };
+        // if (request('matte') == 'true') {
+        //     $request->merge(['matte' => true]);
+        // } else {
+        //     $request->merge(['matte' => false]);
+        // };
 
-        if (request('koppelstukken') == 'true') {
-            $request->merge(['koppelstukken' => true]);
-        } else {
-            $request->merge(['koppelstukken' => false]);
-        };
+        // if (request('fine') == 'true') {
+        //     $request->merge(['fine' => true]);
+        // } else {
+        //     $request->merge(['fine' => false]);
+        // };
 
-        if (request('ankers') == 'true') {
-            $request->merge(['ankers' => true]);
-        } else {
-            $request->merge(['ankers' => false]);
-        };
+        // if (request('seasidePrep') == 'true') {
+        //     $request->merge(['seasidePrep' => true]);
+        // } else {
+        //     $request->merge(['seasidePrep' => false]);
+        // };
 
-        if (request('hoekstukken') == 'true') {
-            $request->merge(['hoekstukken' => true]);
-        } else {
-            $request->merge(['hoekstukken' => false]);
-        };
+        // if (request('koppelstukken') == 'true') {
+        //     $request->merge(['koppelstukken' => true]);
+        // } else {
+        //     $request->merge(['koppelstukken' => false]);
+        // };
+
+        // if (request('ankers') == 'true') {
+        //     $request->merge(['ankers' => true]);
+        // } else {
+        //     $request->merge(['ankers' => false]);
+        // };
+
+        // if (request('hoekstukken') == 'true') {
+        //     $request->merge(['hoekstukken' => true]);
+        // } else {
+        //     $request->merge(['hoekstukken' => false]);
+        // };
 
         $customer = Customer::create([
             'companyName'=> request('companyName'),
