@@ -138,6 +138,7 @@
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="amount[]"
                                                     id="amount[]" placeholder="Aantal" value='{{ old('amount[]') }}'
+                                                    min="1"
                                                     onkeypress="return isNumberKey(this, event);">
                                             </div>
                                         </div>
@@ -154,7 +155,7 @@
                     <nav class="level"></nav>
                 </table>
 
-                <table class="table" id="bottom-table" style="display: none">
+                {{-- <table class="table" id="bottom-table" style="display: none">
                     <thead>
                         <tr id="top-row">
                             <th></th><th></th><th></th><th></th><th></th><th></th>
@@ -277,7 +278,7 @@
                         </div>
                     </nav>
 
-                </table>
+                </table> --}}
 
                 {{-- Finish section --}}
 
@@ -490,7 +491,7 @@
                                                 <input class="input is-small is-rounded
                                                         @error('email')
                                                                 is-danger
-                                                        @enderror" type="text" name="email" id="email" placeholder="Email"
+                                                        @enderror" type="email" name="email" id="email" placeholder="Email"
                                                     value='{{ old('email') }}'>
                                             </div>
                                         </div>
@@ -520,6 +521,7 @@
                                                         @error('postalCode')
                                                                 is-danger
                                                         @enderror" type="text" name="postalCode" id="postalCode"
+                                                        pattern="[1-9][0-9]{3}\s?[a-zA-Z]{2}"
                                                     placeholder="Postcode" value='{{ old('postalCode') }}'>
                                             </div>
                                         </div>
