@@ -13,9 +13,10 @@
             <form method='POST' enctype="multipart/form-data" action="/orders" name="offerte">
                 @csrf
 
-                @if ($errors->any())
-                    {!! implode('', $errors->all('<div>:message</div>')) !!}
-                @endif
+                {{-- @if ($errors->any())
+                    //{!! implode('', $errors->all('<div>:message</div>')) !!}
+                    <li>{{ $errors }}</li>
+                @endif --}}
 
                 {{-- Mesurement section --}}
 
@@ -43,7 +44,8 @@
                                                                                                                     is-danger
                                                                             @enderror" type="number" name="A[]" id="A[]"
                                                     placeholder="Maat A" value='{{ old('A[]') }}'
-                                                    onkeypress="return isNumberKey(this, event);">
+                                                    onkeypress="return isNumberKey(this, event);"
+                                                    required>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -66,7 +68,8 @@
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="B[]" id="B[]"
                                                     placeholder="Maat B" value='{{ old('B[]') }}'
-                                                    onkeypress="return isNumberKey(this, event);">
+                                                    onkeypress="return isNumberKey(this, event);"
+                                                    required>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -84,7 +87,8 @@
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="C[]" id="C[]"
                                                     placeholder="Maat C" value='{{ old('C[]') }}'
-                                                    onkeypress="return isNumberKey(this, event);">
+                                                    onkeypress="return isNumberKey(this, event);"
+                                                    required>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -102,7 +106,8 @@
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="afschot[]"
                                                     id="afschot[]" placeholder="Afschot" value='{{ old('afschot[]') }}'
-                                                    onkeypress="return isNumberKey(this, event);">
+                                                    onkeypress="return isNumberKey(this, event);"
+                                                    required>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">graden</a>
@@ -120,7 +125,8 @@
                                                                                                                         is-danger
                                                                                 @enderror" type="number" name="length[]"
                                                     id="length[]" placeholder="Lengte" value='{{ old('length[]') }}'
-                                                    onkeypress="return isNumberKey(this, event);">
+                                                    onkeypress="return isNumberKey(this, event);"
+                                                    required>
                                             </div>
                                             <div class="control">
                                                 <a class="button is-static is-small is-rounded">mm</a>
@@ -139,7 +145,8 @@
                                                                                 @enderror" type="number" name="amount[]"
                                                     id="amount[]" placeholder="Aantal" value='{{ old('amount[]') }}'
                                                     min="1"
-                                                    onkeypress="return isNumberKey(this, event);">
+                                                    onkeypress="return isNumberKey(this, event);"
+                                                    required>
                                             </div>
                                         </div>
                                     </td>
@@ -154,131 +161,6 @@
                     <thead></thead>
                     <nav class="level"></nav>
                 </table>
-
-                {{-- <table class="table" id="bottom-table" style="display: none">
-                    <thead>
-                        <tr id="top-row">
-                            <th></th><th></th><th></th><th></th><th></th><th></th>
-                        </tr>
-                    </thead>
-                    <nav class="level">
-                        <div class="level-left">
-                            <tbody id="table-fields">
-                                <tr>
-                                    <th>Maat A:</th>
-                                    <td id="fieldA2">
-                                        <div class="field has-addons">
-                                            <div class="control">
-                                                <input class="input is-small is-rounded
-                                                                            @error('A[]')
-                                                                                                                    is-danger
-                                                                            @enderror" type="number" name="A[]" id="A[]"
-                                                    placeholder="Maat A" value='{{ old('A[]') }}'
-                                                    onkeypress="return isNumberKey(this, event);" disabled="disabled">
-                                            </div>
-                                            <div class="control">
-                                                <a class="button is-static is-small is-rounded">mm</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <a class="button level-item" id="add-button2" onclick="addField()"
-                                        style="position: absolute; height: 9.5%; width:10%; margin-left: 5%;"
-                                        >+</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Maat B:</th>
-                                    <td id="fieldB2">
-                                        <div class="field has-addons">
-                                            <div class="control">
-                                                <input class="input control is-small is-rounded
-                                                                                @error('B[]')
-                                                                                                                        is-danger
-                                                                                @enderror" type="number" name="B[]" id="B[]"
-                                                    placeholder="Maat B" value='{{ old('B[]') }}'
-                                                    onkeypress="return isNumberKey(this, event);" disabled="disabled">
-                                            </div>
-                                            <div class="control">
-                                                <a class="button is-static is-small is-rounded">mm</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Maat C:</th>
-                                    <td id="fieldC2">
-                                        <div class="field has-addons">
-                                            <div class="control">
-                                                <input class="input control is-small is-rounded
-                                                                                @error('C[]')
-                                                                                                                        is-danger
-                                                                                @enderror" type="number" name="C[]" id="C[]"
-                                                    placeholder="Maat C" value='{{ old('C[]') }}'
-                                                    onkeypress="return isNumberKey(this, event);" disabled="disabled">
-                                            </div>
-                                            <div class="control">
-                                                <a class="button is-static is-small is-rounded">mm</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Afschot:</th>
-                                    <td id="fieldAfschot2">
-                                        <div class="field has-addons">
-                                            <div class="control">
-                                                <input class="input is-small is-rounded
-                                                                                @error('afschot[]')
-                                                                                                                        is-danger
-                                                                                @enderror" type="number" name="afschot[]"
-                                                    id="afschot[]" placeholder="Afschot" value='{{ old('afschot[]') }}'
-                                                    onkeypress="return isNumberKey(this, event);" disabled="disabled">
-                                            </div>
-                                            <div class="control">
-                                                <a class="button is-static is-small is-rounded">graden</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Lengte:</th>
-                                    <td id="fieldLength2">
-                                        <div class="field has-addons">
-                                            <div class="control">
-                                                <input class="input is-small is-rounded
-                                                                                @error('length[]')
-                                                                                                                        is-danger
-                                                                                @enderror" type="number" name="length[]"
-                                                    id="length[]" placeholder="Lengte" value='{{ old('length[]') }}'
-                                                    onkeypress="return isNumberKey(this, event);" disabled="disabled">
-                                            </div>
-                                            <div class="control">
-                                                <a class="button is-static is-small is-rounded">mm</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Aantal</th>
-                                    <td id="fieldAmount2">
-                                        <div class="field has-addons">
-                                            <div class="control">
-                                                <input class="input is-small is-rounded
-                                                                                @error('amount[]')
-                                                                                                                        is-danger
-                                                                                @enderror" type="number" name="amount[]"
-                                                    id="amount[]" placeholder="Aantal" value='{{ old('amount[]') }}'
-                                                    onkeypress="return isNumberKey(this, event);" disabled="disabled">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </div>
-                    </nav>
-
-                </table> --}}
 
                 {{-- Finish section --}}
 
@@ -404,7 +286,11 @@
                     Foto of tekening:
                 </h1><br>
 
-                <div id="file-js-example" class="file has-name">
+                <div id="file-js-example" class="file has-name
+                @error('image')
+                    is-danger
+                @enderror
+                ">
                     <label class="file-label">
                       <input class="file-input" type="file" name="image" accept="image/*">
                       <span class="file-cta">
@@ -419,7 +305,10 @@
                         No file uploaded
                       </span>
                     </label>
-                  </div>
+                </div>
+                @error('image')
+                    {!! implode('', $errors->image('<li class="is-danger">:message</li>')) !!}
+                @enderror
 
 
                 <section class="section is-small">
@@ -464,7 +353,8 @@
                                                         @error('name')
                                                                     is-danger
                                                         @enderror" type="text" name="name" id="name" placeholder="Naam"
-                                                    value='{{ old('name') }}'>
+                                                    value='{{ old('name') }}'
+                                                    required>
                                             </div>
                                         </div>
                                     </td>
@@ -478,7 +368,8 @@
                                                         @error('phoneNumber')
                                                                 is-danger
                                                         @enderror" type="text" name="phoneNumber" id="phoneNumber"
-                                                    placeholder="Telefoonnummer" value='{{ old('phoneNumber') }}'>
+                                                    placeholder="Telefoonnummer" value='{{ old('phoneNumber') }}'
+                                                    required>
                                             </div>
                                         </div>
                                     </td>
@@ -492,7 +383,8 @@
                                                         @error('email')
                                                                 is-danger
                                                         @enderror" type="email" name="email" id="email" placeholder="Email"
-                                                    value='{{ old('email') }}'>
+                                                    value='{{ old('email') }}'
+                                                    required>
                                             </div>
                                         </div>
                                     </td>
@@ -507,7 +399,7 @@
                                                                 is-danger
                                                         @enderror" type="text" name="street"
                                                     id="street" placeholder="Straat en nummer"
-                                                    value='{{ old('street') }}'>
+                                                    value='{{ old('street') }}' required>
                                             </div>
                                         </div>
                                     </td>
@@ -536,7 +428,7 @@
                                                         @error('place')
                                                                 is-danger
                                                         @enderror" type="text" name="place" id="place" placeholder="Plaats"
-                                                    value='{{ old('place') }}'>
+                                                    value='{{ old('place') }}' required>
                                             </div>
                                         </div>
                                     </td>

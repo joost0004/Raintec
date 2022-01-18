@@ -48,10 +48,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
 
-        // dd(
-        //     serialize($request->A)
-        // );
-
+        // Validate the input of the request
         $request->validate([
             'companyName'=>'',
             'name'=>'required',
@@ -82,6 +79,8 @@ class OrderController extends Controller
             'notes'=>'',
         ]);
 
+        // Take all the boolean variables and convert them from a number to something laravel can understand
+
         $booleanFields = [
             'powdercoat',
             'matte',
@@ -100,47 +99,14 @@ class OrderController extends Controller
             };
         }
 
-        // if (request('powdercoat') == 'true') {
-        //     $request->merge(['powdercoat' => true]);
-        // } else {
-        //     $request->merge(['powdercoat' => false]);
-        // };
+        // Check the powdercoat field and correct the input if neccesary
+        if ($request->powdercoat === false) {
+            $request->merge(['RAL' => '']);
+            $request->merge(['matte' => false]);
+            $request->merge(['fine' => false]);
+            $request->merge(['seasidePrep' => false]);
+        }
 
-        // if (request('matte') == 'true') {
-        //     $request->merge(['matte' => true]);
-        // } else {
-        //     $request->merge(['matte' => false]);
-        // };
-
-        // if (request('fine') == 'true') {
-        //     $request->merge(['fine' => true]);
-        // } else {
-        //     $request->merge(['fine' => false]);
-        // };
-
-        // if (request('seasidePrep') == 'true') {
-        //     $request->merge(['seasidePrep' => true]);
-        // } else {
-        //     $request->merge(['seasidePrep' => false]);
-        // };
-
-        // if (request('koppelstukken') == 'true') {
-        //     $request->merge(['koppelstukken' => true]);
-        // } else {
-        //     $request->merge(['koppelstukken' => false]);
-        // };
-
-        // if (request('ankers') == 'true') {
-        //     $request->merge(['ankers' => true]);
-        // } else {
-        //     $request->merge(['ankers' => false]);
-        // };
-
-        // if (request('hoekstukken') == 'true') {
-        //     $request->merge(['hoekstukken' => true]);
-        // } else {
-        //     $request->merge(['hoekstukken' => false]);
-        // };
 
         $customer = Customer::create([
             'companyName'=> request('companyName'),
@@ -154,8 +120,6 @@ class OrderController extends Controller
         ]);
 
         $customer_id = $customer->id;
-
-        //$seriA = $request->
 
         if ($request->image) {
             $fileExtension = $request->image->extension();

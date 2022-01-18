@@ -78,7 +78,11 @@ class TestPDFGen extends Controller
             $shippingCost = 50;
         }
 
-        $notes= $orderData->notes;
+        if ($orderData->notes) {
+            $notes = $orderData->notes;
+        } else {
+            $notes = '';
+        }
 
         $amountItems = count($orderData->A) - 1;
 

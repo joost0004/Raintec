@@ -78,7 +78,11 @@ class PDFGenController extends Controller
             $shippingCost = 50;
         }
 
-        $notes= $orderData->notes;
+        if ($orderData->notes) {
+            $notes = $orderData->notes;
+        } else {
+            $notes = '';
+        }
 
         $items = $this->newItem($orderData);
 

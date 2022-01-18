@@ -34,7 +34,7 @@
     <section class="section">
 
         @if ($message = Session::get('success'))
-            <div class="notification is-info is-light" id="notification">
+            <div class="notification is-info is-light" id="notification" style="margin-right: 30%; margin-left: 30%;">
                 <button class="delete" onclick="hideNotification()">x</button>
                 {{ $message }}
               </div>
@@ -47,6 +47,7 @@
                     <td>Order ID</td>
                     <td>Klant</td>
                     <td>E-mail</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -85,6 +86,9 @@
                                 </td>
                             @endif
                         @endif
+                        <td>
+
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

@@ -113,8 +113,16 @@ function addField() {
 }
 
 function showPowdercoat(value) {
+
+    // Elements to be hiden
     let extra1 = document.getElementById('powdercoat-extra1');
     let extra2 = document.getElementById('powdercoat-extra2');
+
+    // Inputs to be cleared
+    let RALinput = document.getElementsByName('RAL');
+    let MatteInput = document.getElementsByName('matte');
+    let FineInput = document.getElementsByName('fine');
+    let seasideInput = document.getElementsByName('seasidePrep');
 
     switch (value) {
         case "true":
@@ -125,6 +133,13 @@ function showPowdercoat(value) {
         case "false":
             extra1.style.visibility = "hidden";
             extra2.style.visibility = "hidden";
+
+            console.log('debug');
+
+            RALinput.value = "";
+            MatteInput.value = false;
+            FineInput.value = false;
+            seasideInput.value = false;
         default:
             break;
     }
