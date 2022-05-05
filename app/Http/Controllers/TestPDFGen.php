@@ -108,8 +108,6 @@ class TestPDFGen extends Controller
             ->filename($customerData->name . ' offerte')
             ->save('public');
 
-        // $this->sendMail($customerData);
-
         $orderData->update([
             'status' => 'Done'
         ]);
