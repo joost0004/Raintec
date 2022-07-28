@@ -27,6 +27,7 @@ class TestPDFGen extends Controller
         $item = (new InvoiceItem())->title('Service 1')->pricePerUnit(2)->quantity(2);
 
         $invoice = Invoice::make()
+            ->template('extra')
             ->buyer($customer)
             ->discountByPercent(10)
             ->taxRate(15)
@@ -54,6 +55,7 @@ class TestPDFGen extends Controller
             'phone' => $customerData->phoneNumber,
             'custom_fields' => [
                 'email' => $customerData->email,
+                'company' => $customerData->companyName
         ],
         ]);
 
@@ -106,6 +108,7 @@ class TestPDFGen extends Controller
             ->notes($notes)
             ->logo('img/logo.png')
             ->filename($customerData->name . ' offerte')
+            ->template('extra')
             ->save('public');
 
         $orderData->update([
@@ -152,7 +155,7 @@ class TestPDFGen extends Controller
         // Form main item
         (new InvoiceItem())
             ->title($MainItemString)
-            ->description(['Your product or service description',   'Your product or service description' ])
+            //->description(['Your product or service description',   'Your product or service description' ])
             ->pricePerUnit($MainItemPrice)
             ->quantity($orderData->amount[$arrayKey]),
         ];

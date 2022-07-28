@@ -276,9 +276,7 @@
                         {{ $item->title }}
 
                         @if($item->description)
-                            @foreach ($item->description as $description_text)
-                            <br><a class="cool-gray">{{ $description_text }}</a>
-                            @endforeach
+                            <p class="cool-gray">{{ $item->description }}</p>
                         @endif
                     </td>
                     @if($invoice->hasItemUnits)
