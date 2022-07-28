@@ -51,8 +51,18 @@ class TestPDFGen extends Controller
         // Make customer variable, and fill it with imported data
         $customer = new Buyer([
             'name' => $customerData->name,
-            'address' => "$customerData->street, $customerData->postalCode $customerData->place",
+            'address' => "$customerData->street",
+            'postalCode' => $customerData->postalCode,
+            'place' => $customerData->place,
             'phone' => $customerData->phoneNumber,
+            'powdercoat' => $orderData->powdercoat,
+            'ral' => $orderData->RAL,
+            'amount' => $orderData->amount,
+            'length' => $orderData->length,
+            'kopschotten' => $orderData->kopschotten,
+            'folie' => $orderData->antiDreun,
+            'koppelstukken' => $orderData->koppelstukken,
+            'updated_at' => $orderData->updated_at,
             'custom_fields' => [
                 'email' => $customerData->email,
                 'company' => $customerData->companyName
