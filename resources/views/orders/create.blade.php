@@ -345,15 +345,30 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Naam:</th>
+                                    <th>Voornaam:</th>
                                     <td>
                                         <div class="field">
                                             <div class="control">
                                                 <input class="input control is-small is-rounded
-                                                        @error('name')
+                                                        @error('firstName')
                                                                     is-danger
-                                                        @enderror" type="text" name="name" id="name" placeholder="Naam"
-                                                    value='{{ old('name') }}'
+                                                        @enderror" type="text" name="firstName" id="firstName" placeholder="Voornaam"
+                                                    value='{{ old('firstName') }}'
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Achternaam:</th>
+                                    <td>
+                                        <div class="field">
+                                            <div class="control">
+                                                <input class="input control is-small is-rounded
+                                                        @error('lastName')
+                                                                    is-danger
+                                                        @enderror" type="text" name="lastName" id="lastName" placeholder="Achternaam"
+                                                    value='{{ old('lastName') }}'
                                                     required>
                                             </div>
                                         </div>

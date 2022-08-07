@@ -51,7 +51,8 @@ class OrderController extends Controller
         // Validate the input of the request
         $request->validate([
             'companyName'=>'',
-            'name'=>'required',
+            'firstName'=>'required',
+            'lastName'=>'required',
             'email'=>'required',
             'phoneNumber'=>'required',
             'street'=>'required',
@@ -110,7 +111,8 @@ class OrderController extends Controller
 
         $customer = Customer::create([
             'companyName'=> request('companyName'),
-            'name'=> request('name'),
+            'firstName'=> request('firstName'),
+            'lastName'=> request('lastName'),
             'email'=> request('email'),
             'phoneNumber'=> request('phoneNumber'),
             'street'=> request('street'),

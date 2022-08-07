@@ -17,6 +17,10 @@
         body {
             font-family: Verdana, Arial, sans-serif;
             font-size: small;
+            background-image: url("<?php echo $base64; ?>");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         table {
@@ -48,17 +52,21 @@
         ?>
     @endforeach
     <p>{{ $company }}</p>
-    <p>T.a.v. {{ $invoice->buyer->name }} ({{ $invoice->buyer->phone }} / {{ $email }})</p>
+    <p>T.a.v. {{ $invoice->buyer->firstName }} {{ $invoice->buyer->lastName }} ({{ $invoice->buyer->phone }} / {{ $email }})</p>
     <p>{{ $invoice->buyer->address }}</p>
     <p>{{ $invoice->buyer->postalCode }} {{ $invoice->buyer->place }}</p>
 
+    <br/>
+
+    <p>Datum: 
+    <?php
+            echo strtok($invoice->buyer->updated_at, " ");
+        ?>
+    </p>
+
     <br />
 
-    <p>Datum: {{ $invoice->buyer->updated_at }}</p>
-
-    <br />
-
-    <p>Geachte,</p>
+    <p>Geachte heer/mevrouw {{ $invoice->buyer->lastName }},</p>
     <p>Bedankt voor uw aanvraag, wij bieden dit zetwerk, geheel vrijblijvend, voor de volgende prijzen aan:</p>
 
     <table width="100%">

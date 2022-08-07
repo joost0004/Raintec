@@ -58,7 +58,7 @@
                     <tr>
                         <td>{{ $order->status }}</td>
                         <td>{{ $order->id }}</td>
-                        <td>{{ $customers[$order->customerId - 1]->name }}</td>
+                        <td>{{ $customers[$order->customerId - 1]->firstName }} {{ $customers[$order->customerId - 1]->lastName }}</td>
                         <td>{{ $customers[$order->customerId - 1]->email }}</td>
                         <td>
                             <form action="/gen/{{ $order->id }}">
