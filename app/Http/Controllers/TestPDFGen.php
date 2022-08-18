@@ -16,11 +16,12 @@ use App\Models\Customer;
 
 class TestPDFGen extends Controller
 {
-    public function show() {
-            $customer = new Buyer([
-                'name' => 'Klant',
-                'custom_fields' => [
-                    'email' => 'test@example.com',
+    public function show()
+    {
+        $customer = new Buyer([
+            'name' => 'Klant',
+            'custom_fields' => [
+                'email' => 'test@example.com',
             ],
         ]);
 
@@ -39,10 +40,11 @@ class TestPDFGen extends Controller
     }
 
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-    public function createInvoice($orderId) {
+    public function createInvoice($orderId)
+    {
 
         // Import data related to invoice
         $orderData = Order::where('id', $orderId)->firstOrFail();
@@ -67,7 +69,7 @@ class TestPDFGen extends Controller
             'custom_fields' => [
                 'email' => $customerData->email,
                 'company' => $customerData->companyName
-        ],
+            ],
         ]);
 
         $client = new Party([
@@ -80,7 +82,7 @@ class TestPDFGen extends Controller
                 'BTW nr.' => 'NL 8105 37 412 B01',
                 'Bank BIC' => 'ABNANL2A',
                 'IBAN' => 'NL74ABNA 0975 539 868'
-        ],
+            ],
         ]);
 
         // Calculate shipping cost
@@ -97,21 +99,19 @@ class TestPDFGen extends Controller
             $notes = '';
         }
 
-        $amountItems = count($orderData->A) - 1;
-
         $items = [];
 
-
-        for($i = 0; $i <= $amountItems; $i++)
-        {
-            $newItem = $this->newItem($orderData, $i);
-            $items = array_merge($items, $newItem);
+        for ($i = 0; $i <= sizeof($orderData->A)-1; $i++) {
+            $items = array_merge($items, $this->newItem($orderData, $i));
         }
+
+        $items = array_merge($items, $this->addExtras($orderData));
 
 
         $invoice = Invoice::make()
             ->buyer($customer)
             ->seller($client)
+            ->series($orderId)
             ->taxRate(21)
             ->addItems($items)
             ->dateFormat('d/M/Y')
@@ -127,17 +127,17 @@ class TestPDFGen extends Controller
         ]);
 
         return $invoice->stream();
-
     }
 
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-    public function newItem($orderData, $arrayKey) {
+    public function newItem($orderData, $arrayKey)
+    {
 
         // Pulling in the price list
-        $priceList= PriceList::all()->where('id', '=', '1')->first();
+        $priceList = PriceList::all()->where('id', '=', '1')->first();
 
 
         $uitslag = $orderData->A[$arrayKey] + $orderData->B[$arrayKey] + $orderData->C[$arrayKey] + 11;
@@ -148,7 +148,7 @@ class TestPDFGen extends Controller
         switch ($orderData->powdercoat) {
             case 1:
                 $MainItemLength = $orderData->length[$arrayKey];
-                $MainItemString = "Aluminium zetwerk gepoedercoat in $orderData->RAL. Totaal $MainItemLength mm $surfaceArea";
+                $MainItemString = "Aluminium zetwerk gepoedercoat in $orderData->RAL.";
                 if ($surfaceArea < 10) {
                     $MainItemPrice = ($priceList->product * $surfaceArea) + $priceList->poedercoat;
                 } else {
@@ -163,35 +163,53 @@ class TestPDFGen extends Controller
         }
 
         $items = [
-        // Form main item
-        (new InvoiceItem())
-            ->title($MainItemString)
-            //->description(['Your product or service description',   'Your product or service description' ])
-            ->pricePerUnit($MainItemPrice)
-            ->quantity($orderData->amount[$arrayKey]),
+            // Form main item
+            (new InvoiceItem())
+                ->title($MainItemString)
+                ->description('mainItem')
+                ->pricePerUnit($MainItemPrice)
+                ->quantity($orderData->amount[$arrayKey]),
         ];
+
+        return $items;
+    }
+
+    public function addExtras($orderData)
+    {
+
+        // Pulling in the price list
+        $priceList = PriceList::all()->where('id', '=', '1')->first();
+
+        for ($i = 0; $i < sizeof($orderData->A); $i++) {
+            $totalUitslag = $orderData->A[$i] + $orderData->B[$i] + $orderData->C[$i] + 11;
+            $totalSurfaceArea = ($totalUitslag * $orderData->length[$i] * $orderData->amount[$i]) / 1000000;
+        }
+
+
+
+        $items = [];
 
         // Mat
         if ($orderData->matte === 1) {
             $matte = (new InvoiceItem())
-            ->title("Mat behandeling")
-            ->pricePerUnit(1 * $surfaceArea);
+                ->title("Mat behandeling")
+                ->pricePerUnit(1 * $totalSurfaceArea);
             array_push($items, $matte);
         }
 
         // Fijn structuur
         if ($orderData->fine === 1) {
             $fine = (new InvoiceItem())
-            ->title("Fijn structuur")
-            ->pricePerUnit(1 * $surfaceArea);
+                ->title("Fijn structuur")
+                ->pricePerUnit(1 * $totalSurfaceArea);
             array_push($items, $fine);
         }
 
         // Seaside voorbehandeling
         if ($orderData->seasidePrep === 1) {
             $seasidePrep = (new InvoiceItem())
-            ->title("Seaside voorbehandeling")
-            ->pricePerUnit(1 * $surfaceArea);
+                ->title("Seaside voorbehandeling")
+                ->pricePerUnit(1 * $totalSurfaceArea);
             array_push($items, $seasidePrep);
         }
 
@@ -199,23 +217,23 @@ class TestPDFGen extends Controller
         switch ($orderData->kopschotten) {
             case 1:
                 $kopschotten = (new InvoiceItem())
-                ->title("Gelaste kopschotten waterslagen")
-                ->pricePerUnit($priceList->kopschotten)
-                ->quantity(2);
+                    ->title("Gelaste kopschotten waterslagen")
+                    ->pricePerUnit($priceList->kopschotten)
+                    ->quantity(2);
                 array_push($items, $kopschotten);
                 break;
             case 2:
                 $kopschotten = (new InvoiceItem())
-                ->title("Kopschotten waterslagen, los geleverd")
-                ->pricePerUnit($priceList->kopschotten)
-                ->quantity(2);
+                    ->title("Kopschotten waterslagen, los geleverd")
+                    ->pricePerUnit($priceList->kopschotten)
+                    ->quantity(2);
                 array_push($items, $kopschotten);
                 break;
             case 3:
                 $kopschotten = (new InvoiceItem())
-                ->title("Kopschotten waterslagen, geschikt voor stucwerk")
-                ->pricePerUnit($priceList->kopschotten)
-                ->quantity(2);
+                    ->title("Kopschotten waterslagen, geschikt voor stucwerk")
+                    ->pricePerUnit($priceList->kopschotten)
+                    ->quantity(2);
                 array_push($items, $kopschotten);
                 break;
             default:
@@ -227,16 +245,16 @@ class TestPDFGen extends Controller
         switch ($orderData->antiDreun) {
             case 1:
                 $antiDreun = (new InvoiceItem())
-                ->title("Anti-dreunfolie 50mm, los geleverd")
-                ->pricePerUnit($priceList->antiDreun)
-                ->quantity(1);
+                    ->title("Anti-dreunfolie 50mm, los geleverd")
+                    ->pricePerUnit($priceList->antiDreun)
+                    ->quantity(1);
                 array_push($items, $antiDreun);
                 break;
             case 2:
                 $antiDreun = (new InvoiceItem())
-                ->title("Anti-dreunfolie 50mm, aangebracht")
-                ->pricePerUnit($priceList->antiDreun)
-                ->quantity(1);
+                    ->title("Anti-dreunfolie 50mm, aangebracht")
+                    ->pricePerUnit($priceList->antiDreun)
+                    ->quantity(1);
                 array_push($items, $antiDreun);
                 break;
             default:
@@ -244,22 +262,19 @@ class TestPDFGen extends Controller
         }
 
         // Koppelstukken
-        if ($orderData->length[$arrayKey] >= 3000) {
-            $koppelstuk = (new InvoiceItem())
-            ->title("Koppelstukken waterslag(en)")
-            ->pricePerUnit($priceList->koppelstukken)
-            ->quantity(1);
-            array_push($items, $koppelstuk);
-        }
-
-
+        // if ($orderData->length[$arrayKey] >= 3000) {
+        //     $koppelstuk = (new InvoiceItem())
+        //         ->title("Koppelstukken waterslag(en)")
+        //         ->pricePerUnit($priceList->koppelstukken)
+        //         ->quantity(1);
+        //     array_push($items, $koppelstuk);
+        // }
 
         return $items;
-
-
     }
 
-    public function sendMail($orderId) {
+    public function sendMail($orderId)
+    {
 
         $orderData = Order::where('id', $orderId)->firstOrFail();
         $customerData = Customer::where('id', $orderData->customerId)->firstOrFail();
@@ -267,7 +282,5 @@ class TestPDFGen extends Controller
         app('App\Http\Controllers\MailController')->sendInvoice($customerData);
 
         return back()->with('success', "Offerte verstuurd naar {$customerData->name}.");
-
     }
-
 }

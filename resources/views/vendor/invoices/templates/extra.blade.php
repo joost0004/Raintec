@@ -4,6 +4,10 @@
 <head>
 
     <?php
+    use App\Models\Order;
+    $orderData = Order::where('id', $invoice->series)->firstOrFail();
+
+
     $path = 'img/bg.jpg';
     $type = pathinfo($path, PATHINFO_EXTENSION);
     $data = file_get_contents($path);
@@ -58,7 +62,7 @@
 
     <br/>
 
-    <p>Datum: 
+    <p>Datum:
     <?php
             echo strtok($invoice->buyer->updated_at, " ");
         ?>
@@ -69,92 +73,81 @@
     <p>Geachte heer/mevrouw {{ $invoice->buyer->lastName }},</p>
     <p>Bedankt voor uw aanvraag, wij bieden dit zetwerk, geheel vrijblijvend, voor de volgende prijzen aan:</p>
 
-    <table width="100%">
-        <thead>
+    @php
+        $mainItems = [];
+        $extraItems = [];
+
+        foreach($invoice->items as $item) {
+            if($item->description == 'mainItem') {
+                array_push($mainItems, $item);
+            } else {
+                array_push($extraItems, $item);
+            }
+        }
+    @endphp
+
+
+<table width="100%">
+    <thead>
+        {{-- @foreach ($mainItems as $item)
             <tr>
-                @if($invoice->buyer->powdercoat == 1)
-                <td>Aluminium zetwerk gepoedercoat in {{ $invoice->buyer->ral }}</td>  
-                @elseif($invoice->buyer->powdercoat == 0)
-                <td>Aluminium zetwerk niet gepoedercoat</td>  
-                @endif
+                <td>{{$item->title}}</td>
                 <th>Dikte: </th>
                 <th>ca </th>
                 <th>€</th>
             </tr>
-        </thead>
-        <tbody>
+        @endforeach --}}
+        {{-- @dd($mainItems) --}}
+        @for ($i = 0; $i < count($mainItems) ; $i++)
             <tr>
-                <td scope="row">-  stuks met een lengte van  mm. In totaal </td>
+                <td>{{$mainItems[$i]->title}}</td>
+                <th>Dikte: </th>
+                <th>ca </th>
+                <th>€   {{$mainItems[$i]->sub_total_price}}</th>
+            </tr>
+            <tr>
+                <td scope="row">- {{$orderData->amount[$i]}} stuks met een lengte van {{$orderData->length[$i]}} mm. In totaal {{
+                    ($orderData->length[$i] * $orderData->amount[$i]) / 1000
+                }} meter</td>
                 <td align="right"></td>
                 <td align="right"></td>
                 <td align="right"></td>
             </tr>
-            <br />
+        @endfor
+    </thead>
+    <tbody>
+        <br>
+        <tr>
+            <td scope="row">Toebehoren:</td>
+            <td align="right">Aantal</td>
+            <td align="right">Prijs</td>
+            <td align="right">Totaal</td>
+        </tr>
+        @foreach ($extraItems as $item)
             <tr>
-                <td scope="row">Toebehoren:</td>
-                <td align="right">Aantal</td>
-                <td align="right">Prijs</td>
-                <td align="right">Totaal</td>
+                    <td scope="row">{{$item->title}}</td>
+                    <td align="right">{{$item->quantity}}</td>
+                    <td align="right">{{$invoice->formatCurrency($item->price_per_unit)}}</td>
+                    <td align="right">{{$invoice->formatCurrency($item->sub_total_price)}}</td>
             </tr>
-            <tr>
-                @if($invoice->buyer->kopschotten == 0)  
-                @elseif($invoice->buyer->kopschotten == 1)
-                    <td scope="row">Gelaste kopschotten waterslagen</td>
-                    <td align="right"> st</td>
-                    <td align="right">€15.00 st</td>
-                    <td align="right">€30.00</td>
-                @elseif($invoice->buyer->kopschotten == 2)
-                    <td scope="row">Los geleverde kopschotten waterslagen</td>
-                    <td align="right"> st</td>
-                    <td align="right">€15.00 st</td>
-                    <td align="right">€30.00</td>
-                @elseif($invoice->buyer->kopschotten == 3)
-                    <td scope="row">Kopschotten geschikt voor stucwerk waterslagen</td>
-                    <td align="right"> st</td>
-                    <td align="right">€15.00 st</td>
-                    <td align="right">€30.00</td>
-                @endif
-            </tr>
-            <tr>
-                @if($invoice->buyer->folie == 0) 
-                @elseif($invoice->buyer->folie == 1)
-                    <td scope="row">Anti-dreunfolie, los geleverd</td>
-                    <td align="right"> m1</td>
-                    <td align="right">€1.80 m1</td>
-                    <td align="right">€7.20</td>
-                @elseif($invoice->buyer->folie == 2)
-                    <td scope="row">Anti-dreunfolie aanbrengen</td>
-                    <td align="right"> m1</td>
-                    <td align="right">€7.50 m1</td>
-                    <td align="right">€30.00</td>
-                @endif
-            </tr>
-            <tr>
-                @if($invoice->buyer->koppelstukken == 0) 
-                @elseif($invoice->buyer->koppelstukken == 1)
-                <td scope="row">Koppelstukken waterslag(en)</td>
-                    <td align="right"> st</td>
-                    <td align="right">€4.00 st</td>
-                    <td align="right">€30.00</td>
-                @endif
-            </tr>
-            <br />
-            <tr>
-                <td scope="row">Bezorgkosten postcodegebied: {{ $invoice->buyer->postalCode }}  {{ $invoice->buyer->place }}</td>
-                <td align="right"></td>
-                <td align="right"></td>
-                <td align="right">€125.00</td>
-            </tr>
-        </tbody>
+        @endforeach
         <br />
-        <tfoot>
-            <tr>
-                <td colspan="2"></td>
-                <td align="right">Totaal $</td>
-                <td align="right">1635.00</td>
-            </tr>
-        </tfoot>
-    </table>
+        <tr>
+            <td scope="row">Bezorgkosten postcodegebied: {{ $invoice->buyer->postalCode }}  {{ $invoice->buyer->place }}</td>
+            <td align="right"></td>
+            <td align="right"></td>
+            <td align="right">{{$invoice->formatCurrency($invoice->shipping_amount)}}</td>
+        </tr>
+    </tbody>
+    <br />
+    <tfoot>
+        <tr>
+            <td colspan="2"></td>
+            <td align="right">Totaal $</td>
+            <td align="right">{{$invoice->formatCurrency($invoice->total_amount)}}</td>
+        </tr>
+    </tfoot>
+</table>
 
     <br />
 
